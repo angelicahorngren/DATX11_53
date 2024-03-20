@@ -74,3 +74,9 @@ crashlytics-build.properties
 # own additions
 *.log
 *.ttf
+# Ida's Computer keeps trying to delete these so put them here
+Assets/Modular Houses/MH_DoorsFix.unitypackage.meta
+Assets/Modular Houses/MH_HDRP-14.unitypackage.meta
+Assets/Modular Houses/MH_HDRP.unitypackage.meta
+Assets/Modular Houses/MH_URP-14.unitypackage.meta
+Assets/Modular Houses/MH_URP.unitypackage.meta
