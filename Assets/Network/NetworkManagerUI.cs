@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class NetworkManagerUI : MonoBehaviour
 {
-    [SerializeField] private Button ServerButton; 
-    [SerializeField] private Button HostButton;  
-    [SerializeField] private Button ClientButton;   
+    [SerializeField] private Button ServerButton;
+    [SerializeField] private Button HostButton;
+    [SerializeField] private Button ClientButton;
 
     private void Awake() {
         ServerButton.onClick.AddListener(() => {
