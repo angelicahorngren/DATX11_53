@@ -9,16 +9,19 @@ public class themeneu: MonoBehaviour {
     //public GameObject 
     public void PlayGame() {  
         Debug.Log("if you see this play button works"); 
+        SceneManager.LoadScene("InsideHouse");
 
         //SceneManager.LoadScene("Playtest");
     }  
     public void QuitGame() {  
         //Application.Quit(); 
         Debug.Log("if you see this exit button works"); 
+        Application.Quit();
     }  
-    public void PlayGameonline() {  
+    public void PlayGameOnline() {  
         //SceneManager.LoadScene("Playtestonline");
         Debug.Log("if you see this online button works");
+        
     }
     public void HideMenu()
     {

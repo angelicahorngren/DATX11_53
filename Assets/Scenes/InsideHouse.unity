@@ -1374,9 +1374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01dfbafbea92d1449c4fe664fb70416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerButton: {fileID: 81666868}
-  HostButton: {fileID: 1379302694}
-  ClientButton: {fileID: 1569482575}
+  ServerButton: {fileID: 0}
+  HostButton: {fileID: 0}
+  ClientButton: {fileID: 0}
+  inforamtionKeeper: {fileID: 11400000, guid: 6c804be9d92e67e40b4937770608944a, type: 2}
 --- !u!1001 &635892046
 PrefabInstance:
   m_ObjectHideFlags: 0

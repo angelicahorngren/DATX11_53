@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/pausemeneuscene.unity
     guid: e6251715ad542714dad3a809a4bcdbe4
   - enabled: 1
-    path: Assets/Scenes/meneubranch.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: d965b2065c4cf9f4590be32229cc11d1
   - enabled: 1
     path: Assets/Scenes/InsideHouse.unity

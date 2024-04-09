@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e0b89eaaac873dd4c9cb1f0f7abbd0cc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ExitButton: {instanceID: 0}
+  - HostButton: {instanceID: 0}
+  - JoinButton: {instanceID: 0}
+  - inforamtionKeeper: {fileID: 11400000, guid: 6c804be9d92e67e40b4937770608944a, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
