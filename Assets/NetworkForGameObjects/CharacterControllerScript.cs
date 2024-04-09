@@ -18,10 +18,32 @@ public class CharacterControllerScript : NetworkBehaviour
             serializer.SerializeValue(ref x);
         }
     }*/
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+
+        if (IsLocalPlayer && FollowCam.mainCam != null && FollowCam.secondCam == null)
+        {
+            FollowCam.secondCam = Instantiate(FollowCam.mainCam.gameObject, Vector3.zero, Quaternion.identity).GetComponent<FollowCam>();
+            FollowCam.secondCam.name = "SecondCam";
+            FollowCam.secondCam.target = characterController.transform;
+
+            //disable audio listener on second camera (only 1 allowed..)
+            FollowCam.secondCam.GetComponent<AudioListener>().enabled = false;
+        }
+        else if (IsLocalPlayer && FollowCam.mainCam != null && FollowCam.secondCam != null)
+        {
+            return;
+        }
+        else if (IsLocalPlayer)
+        {
+            FollowCam.mainCam = FindObjectOfType<FollowCam>();
+            FollowCam.mainCam.target = characterController.transform;
+        }
     }
+
+
 
     /*public override void OnNetworkSpawn()
     {
