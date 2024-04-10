@@ -10,4 +10,8 @@ public class InforamtionKeeper : ScriptableObject
     // Join code (If empty then IsHost)
     // empty code when in main menu
     public String JoinCode = "";
+
+    /*void OnEnable(){
+        JoinCode = "";
+    }*/
 }
