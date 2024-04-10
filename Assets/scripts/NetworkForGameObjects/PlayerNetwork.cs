@@ -22,17 +22,24 @@ public class PlayerNetwork : NetworkBehaviour
             transform.position = _netState.Value.Position;
             transform.rotation = Quaternion.Euler(0, _netState.Value.Rotation.y, 0);
         }
+
+
+
+        if(Input.GetKeyDown(KeyCode.T)){ // a test
+            NetworkPlayerStateServerRpc();
+        }
     }
 
 
     struct PlayerNetworkData : INetworkSerializable {
-        private float _x, _z;
+        private float _x, _y, _z;
         private float _yRot;
 
         internal Vector3 Position {
-            get => new Vector3(_x, 0, _z);
+            get => new Vector3(_x, _y, _z);
             set {
                 _x = value.x;
+                _y = value.y;
                 _z = value.z;
             }
         }
@@ -42,6 +49,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {
             serializer.SerializeValue(ref _x);
+            serializer.SerializeValue(ref _y);
             serializer.SerializeValue(ref _z);
             serializer.SerializeValue(ref _yRot);
         }
@@ -49,7 +57,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     [ServerRpc]
     private void NetworkPlayerStateServerRpc(){
-
+        Debug.Log("test NetworkPlayerStateServerRpc; " + OwnerClientId);
     }
 
     [ClientRpc]

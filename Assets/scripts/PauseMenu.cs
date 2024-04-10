@@ -2,26 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
+
+
+    [SerializeField] private Button ExitButton;
+    //[SerializeField] private Button ServerButton;
+    [SerializeField] private Button ResumeButton;
+    [SerializeField] private Button MenuButton;
     public static bool GameIsPaused = false;
 
     public GameObject pauseMenuUI;
     
-    private int val=0;
+   
 
+    void Start(){
+        pauseMenuUI.SetActive(false);
+    }
+
+    private void Awake() {
+        ExitButton.onClick.AddListener(() => {
+            QuitGame();
+        });
+        ResumeButton.onClick.AddListener(() => {
+            Resume();
+        });
+        MenuButton.onClick.AddListener(() => {
+            LoadMenu();
+        });
+
+    }
     
-    
-    void Update()
-    {
+    void Update(){
         if (Input.GetKeyDown(KeyCode.P))
         {
-           Pause();
-        }
-        if(val==0){
-            pauseMenuUI.SetActive(false);
-            val++;
+           if(GameIsPaused){
+                Resume();
+           } else {
+                Pause();
+           }
         }
     }
 
@@ -30,7 +51,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        Debug.Log("game has restarted");
+        Debug.Log("game has resumed");
     }
 
     void Pause()
@@ -43,7 +64,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("meneubranch");
+        SceneManager.LoadScene("mainmenu");
     }
 
     public void QuitGame()

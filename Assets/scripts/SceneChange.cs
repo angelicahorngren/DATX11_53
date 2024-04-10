@@ -32,6 +32,7 @@ public class SceneChange : MonoBehaviour
         JoinButton.onClick.AddListener(() => {
             Debug.Log("CLIENT/JOIN"); 
             inforamtionKeeper.JoinCode= "1"; // temp hardwired code telling that you are a client for a host with password "1"
+            SceneManager.LoadScene("InsideHouse");
             //NetworkManager.Singleton.StartClient();
         });
     }
@@ -39,6 +40,8 @@ public class SceneChange : MonoBehaviour
      void Start()
     {
         inforamtionKeeper.JoinCode= "";
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
 }
