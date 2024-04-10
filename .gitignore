@@ -82,5 +82,5 @@ Assets/Modular Houses/MH_URP-14.unitypackage.meta
 Assets/Modular Houses/MH_URP.unitypackage.meta
 .vscode
 
-Assets/Scenes/Sandbox_Test_Area/*
-!Assets/Scenes/Sandbox_Test_Area/.gitkeep
+Assets/CUSTOMASSETS/Sandbox_Test_Area/*
+!Assets/CUSTOMASSETS/Sandbox_Test_Area/.gitkeep
