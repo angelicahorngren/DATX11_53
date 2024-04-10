@@ -203,7 +203,6 @@ GameObject:
   - component: {fileID: 220556523}
   - component: {fileID: 220556522}
   - component: {fileID: 220556521}
-  - component: {fileID: 220556520}
   m_Layer: 5
   m_Name: Playtogeter
   m_TagString: Untagged
@@ -231,18 +230,6 @@ RectTransform:
   m_AnchoredPosition: {x: 18, y: -90.399994}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &220556520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220556518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073c2474f25f4614d857b19e74683dd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &220556521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,7 +274,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 220556520}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: themeneu, Assembly-CSharp
         m_MethodName: PlayGameonline
         m_Mode: 1
@@ -1041,7 +1028,6 @@ GameObject:
   - component: {fileID: 1112286810}
   - component: {fileID: 1112286809}
   - component: {fileID: 1112286808}
-  - component: {fileID: 1112286811}
   m_Layer: 5
   m_Name: exit game button
   m_TagString: Untagged
@@ -1113,7 +1099,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1112286811}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: themeneu, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -1163,18 +1149,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112286806}
   m_CullTransparentMesh: 1
---- !u!114 &1112286811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1112286806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073c2474f25f4614d857b19e74683dd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1713238775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,7 +1295,6 @@ GameObject:
   - component: {fileID: 1946650872}
   - component: {fileID: 1946650871}
   - component: {fileID: 1946650870}
-  - component: {fileID: 1946650873}
   m_Layer: 5
   m_Name: playbutton
   m_TagString: Untagged
@@ -1393,7 +1366,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1946650873}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: themeneu, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -1443,18 +1416,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946650868}
   m_CullTransparentMesh: 1
---- !u!114 &1946650873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946650868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073c2474f25f4614d857b19e74683dd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2058744391
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ using Unity.Netcode;
 public class SceneChange : MonoBehaviour
 {
     [SerializeField] private Button ExitButton;
-    //[SerializeField] private Button ServerButton;
     [SerializeField] private Button HostButton;
     [SerializeField] private Button JoinButton;
 
@@ -21,7 +20,6 @@ public class SceneChange : MonoBehaviour
             Debug.Log("EXIT"); 
             
             Application.Quit();
-            //NetworkManager.Singleton.StartServer();
         });
         HostButton.onClick.AddListener(() => {
             Debug.Log("HOST"); 
@@ -33,7 +31,6 @@ public class SceneChange : MonoBehaviour
             Debug.Log("CLIENT/JOIN"); 
             inforamtionKeeper.JoinCode= "1"; // temp hardwired code telling that you are a client for a host with password "1"
             SceneManager.LoadScene("InsideHouse");
-            //NetworkManager.Singleton.StartClient();
         });
     }
 
