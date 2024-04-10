@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Unity.Netcode;
 
 
-public class SceneChange : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button ExitButton;
     [SerializeField] private Button HostButton;
