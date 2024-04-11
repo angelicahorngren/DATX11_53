@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -63,6 +64,9 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
+        NetworkManager.Singleton.Shutdown(); //temporary
+        
+        
         Time.timeScale = 1f;
         SceneManager.LoadScene("mainmenu");
     }

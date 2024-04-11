@@ -64,4 +64,26 @@ public class PlayerNetwork : NetworkBehaviour
     private void NetworkPlayerStateClientRpc(){
 
     }
+
+/*
+    // may be temporary (unfinished)
+    [ClientRpc]
+    private void HostLeaveClientRpc(){
+        NetworkManager.Singleton.Shutdown();
+    }
+    // may be temporary (unfinished)
+    private void Leave(){
+        if(IsHost){
+            HostLeaveClientRpc();
+        } else {
+            NetworkManager.Singleton.Shutdown();
+        }
+    }
+    // may be temporary (unfinished)
+    public void OnApplicationQuit()
+    {      
+        Leave();
+    }
+    
+    */
 }
