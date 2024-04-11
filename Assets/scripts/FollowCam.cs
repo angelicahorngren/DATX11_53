@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class FollowCam : MonoBehaviour 
 {
-	public Transform target;
-	public static FollowCam mainCam;
-	public static FollowCam secondCam;
-	public float camXpos = 0, camYpos = 50, camZpos = 0, fov = 80.5f;
+    public Transform? target;
+    public static FollowCam mainCam;
+    public static FollowCam secondCam;
+    private float camXpos = 0, camYpos = 10, camZpos = 0, fov = 80.5f;
 
- void Awake()
+    void Awake()
     {
         if (mainCam == null)
         {
@@ -21,19 +21,24 @@ public class FollowCam : MonoBehaviour
         }
     }
 
-    
     void LateUpdate()
     {
+        /*if (target != null)
+        {
+            Debug.LogWarning("target is not assigned at spawn");
+        }*/
         if (target != null)
         {
-            transform.position = target.position + new Vector3(camXpos, camYpos, (camZpos - 0f));
-            transform.LookAt(target);
-        }
-        else
-        {
-            Debug.LogWarning("target is assigned at spawn");
+            
+            Transform player1 = target.Find("Player1");
+            transform.position = player1.position + new Vector3(camXpos, camYpos, (camZpos - 0f));
+            transform.rotation = player1.rotation;
+            transform.LookAt(player1);
+
+            if (player1 == null)
+            {
+                Debug.LogWarning("player1 not found");
+            }
         }
     }
 }
-
-
