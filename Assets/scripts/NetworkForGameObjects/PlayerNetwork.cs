@@ -8,30 +8,30 @@ using UnityEngine.UIElements;
 public class PlayerNetwork : NetworkBehaviour
 {
     //Makes sure the other players get and send updated movement
-    private readonly NetworkVariable<PlayerNetworkData> _netState = new NetworkVariable<PlayerNetworkData>(writePerm: NetworkVariableWritePermission.Owner);
+    private readonly NetworkVariable<Vector3> _netPos = new(writePerm: NetworkVariableWritePermission.Owner);
+     private readonly NetworkVariable<Quaternion> _netRot = new(writePerm: NetworkVariableWritePermission.Owner);
+   // private readonly NetworkVariable<PlayerNetworkData> _netState = new NetworkVariable<PlayerNetworkData>(writePerm: NetworkVariableWritePermission.Owner);
     private void Update()
     {
          if(IsOwner){
-            _netState.Value = new PlayerNetworkData(){
+            _netPos.Value = transform.position;
+            _netRot.Value = transform.rotation;
+            /*_netState.Value = new PlayerNetworkData(){
                 Position = transform.position,
                 Rotation = transform.rotation.eulerAngles
-            };
+            };*/
             
         }
         else {
-            transform.position = _netState.Value.Position;
-            transform.rotation = Quaternion.Euler(0, _netState.Value.Rotation.y, 0);
-        }
-
-
-
-        if(Input.GetKeyDown(KeyCode.T)){ // a test
-            NetworkPlayerStateServerRpc();
+            transform.position = _netPos.Value;
+            transform.rotation = _netRot.Value;
+            //transform.position = _netState.Value.Position;
+            //transform.rotation = Quaternion.Euler(0, _netState.Value.Rotation.y, 0);
         }
     }
 
 
-    struct PlayerNetworkData : INetworkSerializable {
+    /*struct PlayerNetworkData : INetworkSerializable {
         private float _x, _y, _z;
         private float _yRot;
 
@@ -45,7 +45,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         internal Vector3 Rotation {
             get => new Vector3(0, _yRot, 0);
-            set => _yRot = value.y;
+            set => _yRot = value..y;
         }
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {
             serializer.SerializeValue(ref _x);
@@ -53,7 +53,7 @@ public class PlayerNetwork : NetworkBehaviour
             serializer.SerializeValue(ref _z);
             serializer.SerializeValue(ref _yRot);
         }
-    }
+    }*/
 
     [ServerRpc]
     private void NetworkPlayerStateServerRpc(){

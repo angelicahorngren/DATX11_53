@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class Player_Movement : MonoBehaviour
+public class Player_Movement : NetworkBehaviour
 {
     public Animator playerAnimation;
     public Rigidbody playerRigid;
@@ -10,6 +11,7 @@ public class Player_Movement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!IsOwner) return;
         //movement
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -28,6 +30,7 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        if(!IsOwner) return;
         //animation 
         bool anyKeyPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D);
 
