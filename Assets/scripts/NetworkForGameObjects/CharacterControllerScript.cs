@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class CharacterControllerScript : NetworkBehaviour
 {
-    private CharacterController characterController;
+    //private CharacterController characterController;
+    private Rigidbody rb;
     public float speed = 5f;
     
 
@@ -21,13 +22,13 @@ public class CharacterControllerScript : NetworkBehaviour
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
 
         if (IsLocalPlayer && FollowCam.mainCam != null && FollowCam.secondCam == null)
         {
             FollowCam.secondCam = Instantiate(FollowCam.mainCam.gameObject, Vector3.zero, Quaternion.identity).GetComponent<FollowCam>();
             FollowCam.secondCam.name = "SecondCam";
-            FollowCam.secondCam.target = characterController.transform;
+            FollowCam.secondCam.target = rb.transform;
 
             //disable audio listener on second camera (only 1 allowed..)
             FollowCam.secondCam.GetComponent<AudioListener>().enabled = false;
@@ -39,7 +40,7 @@ public class CharacterControllerScript : NetworkBehaviour
         else if (IsLocalPlayer)
         {
             FollowCam.mainCam = FindObjectOfType<FollowCam>();
-            FollowCam.mainCam.target = characterController.transform;
+            FollowCam.mainCam.target = rb.transform;
         }
     }
 
@@ -54,9 +55,9 @@ public class CharacterControllerScript : NetworkBehaviour
     void Update()
     {
         if(!IsOwner) return;
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical"));
-        characterController.Move(move * Time.deltaTime * speed);
-
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        move *= speed * Time.deltaTime;
+        rb.MovePosition(transform.position + move);
     }
 
 
