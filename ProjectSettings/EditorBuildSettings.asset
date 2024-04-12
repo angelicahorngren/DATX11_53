@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/pausemeneuscene.unity
     guid: e6251715ad542714dad3a809a4bcdbe4
+  - enabled: 1
+    path: Assets/Scenes/OutsideHouse.unity
+    guid: 39cc07a5a093b5a48a4be98affb4ef00
   m_configObjects: {}
