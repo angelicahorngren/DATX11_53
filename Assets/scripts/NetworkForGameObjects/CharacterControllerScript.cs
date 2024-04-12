@@ -22,6 +22,7 @@ public class CharacterControllerScript : NetworkBehaviour
 
     void Start()
     {
+        if(!IsOwner) return;
         rb = GetComponent<Rigidbody>();
 
         if (IsLocalPlayer && FollowCam.mainCam != null && FollowCam.secondCam == null)

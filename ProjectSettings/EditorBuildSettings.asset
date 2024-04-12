@@ -20,7 +20,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OutsideHouse.unity
     guid: 39cc07a5a093b5a48a4be98affb4ef00
-  - enabled: 1
-    path: Assets/CUSTOMASSETS/Sandbox_Test_Area/fisheyescene.unity
-    guid: f54322f2a18f08f4a980072606efbc10
   m_configObjects: {}
