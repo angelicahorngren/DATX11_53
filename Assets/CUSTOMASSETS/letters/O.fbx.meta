@@ -1,39 +1,9 @@
 fileFormatVersion: 2
-guid: 615ffe5e754af344fbda5a39fa6cca4a
+guid: 1906a12b4604a3e4293ac4b0fd338d5c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MATERIAL.LEFTHOLDER
-    second: {fileID: 2100000, guid: be40685b9368a1044a7febab8a3fee76, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: 00885cafa383ef54bb3874884f4ca6ac, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: 56c0f297aafbcec499fc0712e33ca9d3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.003
-    second: {fileID: 2100000, guid: 2571df330d7295848806fe81bc455c5b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.HOLDERMAIN
-    second: {fileID: 2100000, guid: 5b87c5f058e36af47a193d52b8042645, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.UV
-    second: {fileID: 2100000, guid: 2f46fce8a2aaba64fab463e0520c9638, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
