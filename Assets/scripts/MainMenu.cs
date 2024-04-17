@@ -24,13 +24,13 @@ public class MainMenu : MonoBehaviour
         HostButton.onClick.AddListener(() => {
             Debug.Log("HOST"); 
             inforamtionKeeper.JoinCode= ""; //telling that you are hosting
-            SceneManager.LoadScene("InsideHouse");
+            SceneManager.LoadScene("OutsideHouse");
             //NetworkManager.Singleton.StartHost();
         });
         JoinButton.onClick.AddListener(() => {
             Debug.Log("CLIENT/JOIN"); 
             inforamtionKeeper.JoinCode= "1"; // temp hardwired code telling that you are a client for a host with password "1"
-            SceneManager.LoadScene("InsideHouse");
+            SceneManager.LoadScene("OutsideHouse");
         });
     }
 
