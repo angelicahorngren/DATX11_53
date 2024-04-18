@@ -7,10 +7,15 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] MazeNode nodePrefab;
     [SerializeField] Vector2Int mazeSize;
     [SerializeField] float nodeSize;
+    public float NodeSize => nodeSize;
+    public Vector2Int MazeSize => mazeSize;
 
     private void Start()
     {
         GenerateMazeInstant(mazeSize);
+        
+        
+        
         //StartCoroutine(GenerateMaze(mazeSize));
     }
 
@@ -124,6 +129,8 @@ public class MazeGenerator : MonoBehaviour
                 currentPath.RemoveAt(currentPath.Count - 1);
             }
         }
+        
+    
     }
 
     IEnumerator GenerateMaze(Vector2Int size)
@@ -241,4 +248,8 @@ public class MazeGenerator : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
     }
+    
+
+    
+
 }
