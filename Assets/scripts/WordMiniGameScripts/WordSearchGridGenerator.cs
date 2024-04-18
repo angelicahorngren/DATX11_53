@@ -1,39 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; 
 
 public class WordSearchGridGenerator : MonoBehaviour
 {
 
     public int rows;
     public int columns;
-    public GameObject cellPrefab;
+    public float spacing = 1.0f;
+    public GameObject cell;
+
+    // Removed TMPro.TextMeshProUGUI text; since we're not dealing with UI text
 
     private char[,] grid;
-    // Start is called before the first frame update
+
     void Start()
     {
         GenerateGrid();
         InstantiateGrid();
     }
 
-    GenerateGrid()
+    void GenerateGrid()
     {
         grid = new char[rows, columns];
     }
 
-    InstantiateGrid()
-    {
+    void InstantiateGrid()
+    {   
+        float cellSize = 1.0f; 
+        float distanceBetweenCells = 0.1f; 
         for (int row = 0; row < rows; row++)
         {
-            for (int column = 0; column < columns; column++)
+            for (int col = 0; col < columns; col++)
             {
-                Vector3 cellPosition = new Vector3(row, column, 0);
-                GameObject cell = Instantiate(cellPrefab, new Vector3(row, column, 0), Quaternion.identity);
-                cell.transform.SetParent(this.transform);
+                Vector3 position = new Vector3(row * (cellSize + distanceBetweenCells), 0, col * (cellSize + distanceBetweenCells));
+                GameObject gridCell = Instantiate(cell, position, Quaternion.identity);
+                gridCell.transform.SetParent(transform); 
+
+                TextMeshPro textMeshPro = gridCell.GetComponentInChildren<TextMeshPro>();
+
+ 
+                    char letter = GenerateLetter(); 
+                    textMeshPro.text = letter.ToString();
+
             }
         }
     }
+
+    char GenerateLetter()
+    {
+        return (char)('A' + Random.Range(0, 26));
+    }
+
 
     // Update is called once per frame
     void Update()
