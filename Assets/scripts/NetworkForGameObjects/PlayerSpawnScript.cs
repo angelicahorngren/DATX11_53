@@ -1,59 +1,77 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class PlayerSpawnScript : NetworkBehaviour
 {
+    [SerializeField] public InforamtionKeeper inforamtionKeeper; // Assuming this is intentional
+    private Scene originalScene;
 
-    [SerializeField] public InforamtionKeeper inforamtionKeeper;
-    private UnityEngine.SceneManagement.Scene OriginalScene;
     void Start()
     {
-        OriginalScene = SceneManager.GetActiveScene();
+        originalScene = SceneManager.GetActiveScene();
         Spawn();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(!IsOwner) return;
-        UnityEngine.SceneManagement.Scene newScene = SceneManager.GetActiveScene();
-        if(OriginalScene.buildIndex != newScene.buildIndex){
+        if (!IsOwner) return;
+        Scene newScene = SceneManager.GetActiveScene();
+        if (originalScene.buildIndex != newScene.buildIndex)
+        {
             Spawn();
-            OriginalScene = newScene;
+            originalScene = newScene;
         }
     }
 
-        private void Spawn(){
-            if(!IsOwner) return;
-            if(inforamtionKeeper.StartLevel){
-                StartLevelSpawn();
-                inforamtionKeeper.StartLevel = false;
-            } else {
-                ChangeSceneSpawn();
+    private void Spawn()
+    {
+        if (!IsOwner) return;
+        if (inforamtionKeeper.StartLevel)
+        {
+            StartLevelSpawn();
+            inforamtionKeeper.StartLevel = false;
+        }
+        else
+        {
+            ChangeSceneSpawn();
+        }
+    }
+
+    private void StartLevelSpawn()
+    {
+        GameObject spawnPoint = GameObject.Find("Level1SpawnPoint");
+        if (spawnPoint != null)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(spawnPoint.transform.position, -Vector3.up, out hit))
+            {
+                float range = spawnPoint.GetComponent<SpawnParameters>().range;
+                transform.position = new Vector3(
+                    hit.point.x + Random.Range(-range, range),
+                    hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y / 2,
+                    hit.point.z + Random.Range(-range, range)
+                );
             }
         }
-
-        private void StartLevelSpawn(){
-        GameObject SpawnPoint = GameObject.Find("Level1SpawnPoint");
-        RaycastHit hit;
-        if (Physics.Raycast(
-            SpawnPoint.transform.position, -Vector3.up, out hit)){
-            //Vector3 location = new Vector3(hit.point.x, hit.point.y +0.05f, hit.point.z);
-            float range = SpawnPoint.GetComponent<SpawnParameters>().range; // taken from teh skript in the prefab SpawnPoint
-            
-            transform.position = new Vector3(
-                hit.point.x + Random.Range(-range, range), 
-                hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,  //temp 0.05f
-                hit.point.z + Random.Range(-range, range) 
-            );
+        else
+        {
+            Debug.LogError("Level1SpawnPoint not found.");
         }
     }
-    private void ChangeSceneSpawn(){
-        GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().PlaceCharacter(transform);
-    }
 
+    private void ChangeSceneSpawn()
+    {
+        GameObject sceneChangeArea = GameObject.Find("SceneChangeArea");
+        if (sceneChangeArea != null)
+        {
+            sceneChangeArea.GetComponent<InLevelSceneChange>().PlaceCharacter(transform);
+        }
+        else
+        {
+            Debug.LogError("SceneChangeArea not found.");
+        }
+    }
 }
