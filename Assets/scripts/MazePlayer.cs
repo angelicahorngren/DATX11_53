@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class MazePlayer : MonoBehaviour
 {
     public int keys = 0;
     public float speed = 5.0f;
-
+    
     public MazeGenerator mazeGenerator;
-    public Text youWin;
+    public GameObject winScreen;
     private int count = 0;
+    private bool isMenuActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,8 @@ public class MazePlayer : MonoBehaviour
         
         transform.position = initialPosition;
         count++;
+        winScreen.SetActive(false);
+        isMenuActive = false;
     }
         
     }
@@ -49,19 +53,13 @@ public class MazePlayer : MonoBehaviour
 }
 
 
-
-    private void OnCollisionEnter3D(Collision2D collision)
+private void OnTriggerEnter(Collider other)
+{
+    if (other.CompareTag("Goal"))
     {
-        
-
-        if (collision.gameObject.tag == "Goal")
-        
-            
-        
-        {
-            youWin.text = "YOU WIN!!!";
-        }
-        
+       winScreen.SetActive(true);
+       isMenuActive = true;
         
     }
+}
 }
