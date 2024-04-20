@@ -10,8 +10,7 @@ public class PlayerSpawnScript : NetworkBehaviour
     [SerializeField] public InforamtionKeeper inforamtionKeeper; // Assuming this is intentional
     private Scene OriginalScene;
 
-    //[SerializeField] public InforamtionKeeper inforamtionKeeper;
-    //private UnityEngine.SceneManagement.Scene OriginalScene;
+    
     void Start()
     {
         OriginalScene = SceneManager.GetActiveScene();
@@ -55,6 +54,7 @@ public class PlayerSpawnScript : NetworkBehaviour
                     );
                 }
             } else {
+                ChangeSceneSpawn();
                 Debug.LogError("SpawnPoint not found.");
             }
        // } catch (NullReferenceException e){
@@ -63,19 +63,9 @@ public class PlayerSpawnScript : NetworkBehaviour
        //     Debug.Log("Null point exception for no spawn point object for player in scene, buildindex: " + SceneManager.GetActiveScene().buildIndex);
        // }
             
-    }
-
-    void OnCollisionStay(Collision collisionInfo)
-    {
-        //GameObject DoorZone = GameObject.FindWithTag("Door Zone");
-        // Debug-draw all contact points and normals
-        if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
-            GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
         }
-    }
 
-    private void ChangeSceneSpawn(){
-        // GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().JoinScene(transform);
+    private void ChangeSceneSpawn(){ // joining scene
 
         GameObject area = GameObject.Find("SceneChangeArea");
         if (area != null){
@@ -89,6 +79,13 @@ public class PlayerSpawnScript : NetworkBehaviour
                     hit.point.z
                 );
             }
+        }
+    }
+
+    void OnCollisionStay(Collision collisionInfo) // leaving scene
+    {
+        if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
+            GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
         }
     }
 

@@ -19,7 +19,7 @@ public class NetworkManagerUI : MonoBehaviour
                 Debug.Log("HOSTHOSTHOST");
                 NetworkManager.Singleton.StartHost();
                 inforamtionKeeper.StartLevel = false;
-                NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Additive);
+                NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Single);
         } else {
                 Debug.Log("CLIENTCLIENTCLIENT");
                 NetworkManager.Singleton.StartClient();
