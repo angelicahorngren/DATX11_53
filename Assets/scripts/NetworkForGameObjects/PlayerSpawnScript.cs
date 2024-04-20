@@ -1,24 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class PlayerSpawnScript : NetworkBehaviour
 {
+    [SerializeField] public InforamtionKeeper inforamtionKeeper; // Assuming this is intentional
+    private Scene originalScene;
 
-    [SerializeField] public InforamtionKeeper inforamtionKeeper;
-    private UnityEngine.SceneManagement.Scene OriginalScene;
-    void Start(){
+    //[SerializeField] public InforamtionKeeper inforamtionKeeper;
+    //private UnityEngine.SceneManagement.Scene OriginalScene;
+    void Start()
+    {
         OriginalScene = SceneManager.GetActiveScene();
         Spawn();
     }
 
-    void Update(){   // checks when joined new scene
+    // Update is called once per frame
+    void Update()
+    {
         if(!IsOwner) return;
-        Debug.Log("update");
         UnityEngine.SceneManagement.Scene newScene = SceneManager.GetActiveScene();
         if(OriginalScene.buildIndex != newScene.buildIndex){
             OriginalScene = newScene;
@@ -26,7 +29,7 @@ public class PlayerSpawnScript : NetworkBehaviour
         }
     }
 
-        private void Spawn(){ // on joining new scene
+        private void Spawn(){
             if(!IsOwner) return;
             if(inforamtionKeeper.StartLevel){
                 StartLevelSpawn();
@@ -36,19 +39,23 @@ public class PlayerSpawnScript : NetworkBehaviour
             }
         }
 
-        private void StartLevelSpawn(){ // on joining new scene
-       // try {
+        private void StartLevelSpawn(){
+        // try {
             GameObject SpawnPoint = GameObject.Find("SpawnPoint");
-            RaycastHit hit;
-            if (Physics.Raycast(
-                SpawnPoint.transform.position, -Vector3.up, out hit)){
-                float range = SpawnPoint.GetComponent<SpawnParameters>().range; // taken from the skript in the prefab SpawnPoint
-                
-                transform.position = new Vector3(
-                    hit.point.x + UnityEngine.Random.Range(-range, range), 
-                    hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
-                    hit.point.z + UnityEngine.Random.Range(-range, range) 
-                );
+            if (spawnPoint != null){
+                RaycastHit hit;
+                if (Physics.Raycast(
+                    SpawnPoint.transform.position, -Vector3.up, out hit)){
+                    float range = SpawnPoint.GetComponent<SpawnParameters>().range; // taken from the skript in the prefab SpawnPoint
+                    
+                    transform.position = new Vector3(
+                        hit.point.x + UnityEngine.Random.Range(-range, range), 
+                        hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
+                        hit.point.z + UnityEngine.Random.Range(-range, range) 
+                    );
+                }
+            } else {
+                Debug.LogError("SpawnPoint not found.");
             }
        // } catch (NullReferenceException e){
        //     Debug.LogException(e);
@@ -56,9 +63,7 @@ public class PlayerSpawnScript : NetworkBehaviour
        //     Debug.Log("Null point exception for no spawn point object for player in scene, buildindex: " + SceneManager.GetActiveScene().buildIndex);
        // }
             
-        
     }
-
 
     void OnCollisionStay(Collision collisionInfo)
     {
@@ -69,22 +74,13 @@ public class PlayerSpawnScript : NetworkBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-        }
-    }
-
-
-    private void ChangeSceneSpawn(){ // on joining new scene
-       // GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().JoinScene(transform);
+    private void ChangeSceneSpawn(){
+        // GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().JoinScene(transform);
 
         GameObject area = GameObject.Find("SceneChangeArea");
-        RaycastHit hit;
+        if (area != null){
+            RaycastHit hit;
             Vector3 position = new Vector3(area.transform.position.x, area.transform.position.y, area.transform.position.z);
-        
             if (Physics.Raycast(position, -Vector3.up, out hit)){
                 //setOffsets();
                 transform.position = new Vector3(
@@ -93,7 +89,7 @@ public class PlayerSpawnScript : NetworkBehaviour
                     hit.point.z
                 );
             }
-
+        }
     }
 
 }
