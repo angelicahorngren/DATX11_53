@@ -8,7 +8,7 @@ using Unity.Netcode;
 public class PlayerSpawnScript : NetworkBehaviour
 {
     [SerializeField] public InforamtionKeeper inforamtionKeeper; // Assuming this is intentional
-    private Scene originalScene;
+    private Scene OriginalScene;
 
     //[SerializeField] public InforamtionKeeper inforamtionKeeper;
     //private UnityEngine.SceneManagement.Scene OriginalScene;
@@ -42,7 +42,7 @@ public class PlayerSpawnScript : NetworkBehaviour
         private void StartLevelSpawn(){
         // try {
             GameObject SpawnPoint = GameObject.Find("SpawnPoint");
-            if (spawnPoint != null){
+            if (SpawnPoint != null){
                 RaycastHit hit;
                 if (Physics.Raycast(
                     SpawnPoint.transform.position, -Vector3.up, out hit)){
