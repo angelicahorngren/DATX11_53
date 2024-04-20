@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NetworkManagerUI : MonoBehaviour
 {
@@ -18,6 +18,8 @@ public class NetworkManagerUI : MonoBehaviour
         if(inforamtionKeeper.JoinCode == ""){
                 Debug.Log("HOSTHOSTHOST");
                 NetworkManager.Singleton.StartHost();
+                inforamtionKeeper.StartLevel = false;
+                NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Additive);
         } else {
                 Debug.Log("CLIENTCLIENTCLIENT");
                 NetworkManager.Singleton.StartClient();

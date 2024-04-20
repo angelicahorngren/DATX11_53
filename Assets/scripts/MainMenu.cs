@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public InforamtionKeeper inforamtionKeeper;
 
     private void Awake() {
+        
         ExitButton.onClick.AddListener(() => {
             Debug.Log("EXIT"); 
             
@@ -24,13 +25,15 @@ public class MainMenu : MonoBehaviour
         HostButton.onClick.AddListener(() => {
             Debug.Log("HOST"); 
             inforamtionKeeper.JoinCode= ""; //telling that you are hosting
-            SceneManager.LoadScene("OutsideHouse");
+            //SceneManager.LoadScene("OutsideHouse");
+            SceneManager.LoadScene("NetworkActivationMiddleScene");
             //NetworkManager.Singleton.StartHost();
         });
         JoinButton.onClick.AddListener(() => {
             Debug.Log("CLIENT/JOIN"); 
             inforamtionKeeper.JoinCode= "1"; // temp hardwired code telling that you are a client for a host with password "1"
-            SceneManager.LoadScene("OutsideHouse");
+            //SceneManager.LoadScene("OutsideHouse");
+            SceneManager.LoadScene("NetworkActivationMiddleScene");
         });
     }
 
@@ -39,6 +42,26 @@ public class MainMenu : MonoBehaviour
         inforamtionKeeper.JoinCode= "";
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
+/*        
+        ExitButton.onClick.AddListener(() => {
+            Debug.Log("EXIT"); 
+            
+            Application.Quit();
+        });
+        HostButton.onClick.AddListener(() => {
+            Debug.Log("HOST"); 
+            inforamtionKeeper.JoinCode= ""; //telling that you are hosting
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Single);
+            //NetworkManager.Singleton.StartHost();
+        });
+        JoinButton.onClick.AddListener(() => {
+            Debug.Log("CLIENT/JOIN"); 
+            inforamtionKeeper.JoinCode= "1"; // temp hardwired code telling that you are a client for a host with password "1"
+            NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Single);
+        });
+*/
     }
 
 }

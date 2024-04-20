@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterControllerScript : NetworkBehaviour
 {
@@ -10,6 +11,8 @@ public class CharacterControllerScript : NetworkBehaviour
     private Rigidbody rb;
     public float speed = 5f;
     
+
+    private UnityEngine.SceneManagement.Scene OriginalScene;
 
     /*public struct Test : INetworkSerializable {
         public FixedString128Bytes x;
@@ -43,6 +46,10 @@ public class CharacterControllerScript : NetworkBehaviour
             FollowCam.mainCam = FindObjectOfType<FollowCam>();
             FollowCam.mainCam.target = rb.transform;
         }
+
+
+        OriginalScene = SceneManager.GetActiveScene();
+        
     }
 
 
@@ -59,7 +66,16 @@ public class CharacterControllerScript : NetworkBehaviour
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         move *= speed * Time.deltaTime;
         rb.MovePosition(transform.position + move);
+
+
+
+        UnityEngine.SceneManagement.Scene newScene = SceneManager.GetActiveScene();
+        if(OriginalScene.buildIndex != newScene.buildIndex){
+            OriginalScene = newScene;
+            Start();
+        }
     }
+
 
 
     /*[ServerRpc]
