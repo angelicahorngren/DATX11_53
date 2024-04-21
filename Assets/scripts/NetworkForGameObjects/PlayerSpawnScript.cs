@@ -13,6 +13,7 @@ public class PlayerSpawnScript : NetworkBehaviour
     
     void Start()
     {
+        if(!IsOwner) return;
         OriginalScene = SceneManager.GetActiveScene();
         Spawn();
     }
@@ -21,6 +22,7 @@ public class PlayerSpawnScript : NetworkBehaviour
     void Update()
     {
         if(!IsOwner) return;
+
         UnityEngine.SceneManagement.Scene newScene = SceneManager.GetActiveScene();
         if(OriginalScene.buildIndex != newScene.buildIndex){
             OriginalScene = newScene;
@@ -30,6 +32,7 @@ public class PlayerSpawnScript : NetworkBehaviour
 
         private void Spawn(){
             if(!IsOwner) return;
+
             if(inforamtionKeeper.StartLevel){
                 StartLevelSpawn();
                 inforamtionKeeper.StartLevel = false;
@@ -41,10 +44,9 @@ public class PlayerSpawnScript : NetworkBehaviour
         private void StartLevelSpawn(){
         // try {
             GameObject SpawnPoint = GameObject.Find("SpawnPoint");
-            if (SpawnPoint != null){
+            //if (SpawnPoint != null){
                 RaycastHit hit;
-                if (Physics.Raycast(
-                    SpawnPoint.transform.position, -Vector3.up, out hit)){
+                if (Physics.Raycast(SpawnPoint.transform.position, -Vector3.up, out hit)){
                     float range = SpawnPoint.GetComponent<SpawnParameters>().range; // taken from the skript in the prefab SpawnPoint
                     
                     transform.position = new Vector3(
@@ -53,11 +55,12 @@ public class PlayerSpawnScript : NetworkBehaviour
                         hit.point.z + UnityEngine.Random.Range(-range, range) 
                     );
                 }
-            } else {
-                ChangeSceneSpawn();
-                Debug.LogError("SpawnPoint not found.");
-            }
-       // } catch (NullReferenceException e){
+
+            //} else {
+             //   ChangeSceneSpawn();
+             //   Debug.LogError("SpawnPoint not found.");
+            //}
+       // } //catch (NullReferenceException e){
        //     Debug.LogException(e);
        //     Debug.LogWarning(e);
        //     Debug.Log("Null point exception for no spawn point object for player in scene, buildindex: " + SceneManager.GetActiveScene().buildIndex);
@@ -82,7 +85,14 @@ public class PlayerSpawnScript : NetworkBehaviour
         }
     }
 
-    void OnCollisionStay(Collision collisionInfo) // leaving scene
+    /*void OnCollisionStay(Collision collisionInfo) // leaving scene
+    {
+        if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
+            GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
+        }
+    }*/
+
+    void OnTriggerStay(Collider collisionInfo) // leaving scene
     {
         if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
             GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
