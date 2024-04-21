@@ -15,10 +15,10 @@ public class NetworkManagerUI : MonoBehaviour
 
      void Start()
     {
+        inforamtionKeeper.StartLevel = true;
         if(inforamtionKeeper.JoinCode == ""){
                 Debug.Log("HOSTHOSTHOST");
                 NetworkManager.Singleton.StartHost();
-                inforamtionKeeper.StartLevel = false;
                 NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Single);
         } else {
                 Debug.Log("CLIENTCLIENTCLIENT");
