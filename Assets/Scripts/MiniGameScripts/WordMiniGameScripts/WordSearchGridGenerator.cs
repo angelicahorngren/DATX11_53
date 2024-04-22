@@ -41,34 +41,59 @@ public class WordSearchGridGenerator : MonoBehaviour
 
     }
 
-    void InstantiateGrid()
+void InstantiateGrid()
+{
+    float cellSize = 1.0f;
+    float distanceBetweenCells = 0.1f;
+    for (int row = 0; row < rows; row++)
     {
-        float cellSize = 1.0f;
-        float distanceBetweenCells = 0.1f;
-        for (int row = 0; row < rows; row++)
+        for (int col = 0; col < columns; col++)
         {
-            for (int col = 0; col < columns; col++)
-            {
-                Vector3 position = new Vector3(row * (cellSize + distanceBetweenCells), 0, col * (cellSize + distanceBetweenCells));
-                GameObject gridCell = Instantiate(cell, position, Quaternion.identity);
-                gridCell.transform.SetParent(transform);
-                gridCell.name = "Cell_" + row + "_" + col;
+            Vector3 position = new Vector3(row * (cellSize + distanceBetweenCells), 0, col * (cellSize + distanceBetweenCells));
+            GameObject gridCell = Instantiate(cell, position, Quaternion.identity);
+            gridCell.transform.SetParent(transform);
 
-                TextMeshPro textMeshPro = gridCell.GetComponentInChildren<TextMeshPro>();
-                textMeshPro.text = letterGrid[row, col].ToString();
+            gridCell.name = "Cell_" + row + "_" + col;
 
-                // Add collider for click detection
-                gridCell.AddComponent<BoxCollider>();
+            ClickableCell clickableCell = gridCell.GetComponent<ClickableCell>();
+            clickableCell.SetCellPosition(row, col);
 
-                // Add OnMouseDown handler
-            }
+            TextMeshPro textMeshPro = gridCell.GetComponentInChildren<TextMeshPro>();
+            textMeshPro.text = letterGrid[row, col].ToString();
+
+            gridCell.AddComponent<BoxCollider>();
         }
     }
+}
+
+// Function to select a cell
+public void SelectCell(GameObject cell)
+{
+    ClickableCell clickableCell = cell.GetComponent<ClickableCell>();
+    if (clickableCell != null)
+    {
+        Vector2Int cellPosition = clickableCell.cellPosition;
+
+        if (startCell == null)
+        {
+            startCell = cellPosition;
+            Debug.Log("Start Cell: " + startCell);
+        }
+        else
+        {
+            endCell = cellPosition;
+            //Debug.Log("End Cell: " + endCell);
+            ValidateWord();
+        }
+    }
+}
+
 
     // Function to handle cell click
     public void OnCellClick(GameObject clickedCell)
     {
         ChangeMaterial(clickedCell);
+        SelectCell(clickedCell);
     }
 
     // Function to change material when cell is clicked
@@ -87,18 +112,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     }
 
     // Function to select a cell
-    public void SelectCell(Vector2Int cellPosition)
-    {
-        if (startCell == null)
-        {
-            startCell = cellPosition;
-        }
-        else
-        {
-            endCell = cellPosition;
-            ValidateWord();
-        }
-    }
+
 
     // Function to extract the selected word from the grid
     string ExtractWord()
@@ -118,7 +132,8 @@ public class WordSearchGridGenerator : MonoBehaviour
     void ValidateWord()
     {
         string word = ExtractWord();
-
+        startCell = new Vector2Int(0, 0);
+        endCell = new Vector2Int(0, 0);
         // Your logic to validate the word here...
     }
 
