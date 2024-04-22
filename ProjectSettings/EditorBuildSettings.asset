@@ -23,4 +23,5 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/pausemeneuscene.unity
     guid: e6251715ad542714dad3a809a4bcdbe4
+  m_Scenes: []
   m_configObjects: {}
