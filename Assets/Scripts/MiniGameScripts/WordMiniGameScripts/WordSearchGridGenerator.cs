@@ -14,6 +14,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     private char[,] letterGrid;
     private Vector2Int startCell;
     private Vector2Int endCell;
+    private GameObject[,] gridCells;
 
     void Start()
     {
@@ -39,6 +40,8 @@ public class WordSearchGridGenerator : MonoBehaviour
             {'F', 'P', 'N', 'Y', 'Z', 'E', 'E', 'P', 'T', 'M'}
         };
 
+        gridCells = new GameObject[rows, columns];
+
     }
 
 void InstantiateGrid()
@@ -62,6 +65,9 @@ void InstantiateGrid()
             textMeshPro.text = letterGrid[row, col].ToString();
 
             gridCell.AddComponent<BoxCollider>();
+            gridCells[row, col] = gridCell;
+
+            
         }
     }
 }
@@ -74,16 +80,15 @@ public void SelectCell(GameObject cell)
     {
         Vector2Int cellPosition = clickableCell.cellPosition;
 
-        if (startCell == null)
+        if (startCell == Vector2Int.zero)
         {
             startCell = cellPosition;
-            Debug.Log("Start Cell: " + startCell);
         }
         else
         {
             endCell = cellPosition;
             //Debug.Log("End Cell: " + endCell);
-            ValidateWord();
+            ValidateWord(startCell, endCell);
         }
     }
 }
@@ -107,7 +112,8 @@ public void SelectCell(GameObject cell)
     // Function to restore original material
     public void RestoreMaterial(GameObject cell)
     {
-        MeshRenderer renderer = cell.GetComponent<MeshRenderer>();
+        Transform cellCore = cell.transform.Find("Cell Core");
+        MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = originalMaterial;
     }
 
@@ -129,11 +135,18 @@ public void SelectCell(GameObject cell)
     }
 
     // Function to validate the selected word
-    void ValidateWord()
+    void ValidateWord(Vector2Int startCell, Vector2Int endCell)
     {
         string word = ExtractWord();
-        startCell = new Vector2Int(0, 0);
-        endCell = new Vector2Int(0, 0);
+        Debug.Log("startCell: " + startCell);
+        Debug.Log("endCell: " + endCell);
+
+        foreach (GameObject cell in gridCells)
+        {
+            Debug.Log(cell.name);
+            RestoreMaterial(cell);
+        }
+
         // Your logic to validate the word here...
     }
 
