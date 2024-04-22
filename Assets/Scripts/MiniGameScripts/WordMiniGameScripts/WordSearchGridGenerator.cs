@@ -12,8 +12,8 @@ public class WordSearchGridGenerator : MonoBehaviour
 
     private char[,] grid;
     private char[,] letterGrid;
-    private Vector2Int startCell;
-    private Vector2Int endCell;
+    private Vector2Int startCell = new Vector2Int(-1, -1);
+    private Vector2Int endCell = new Vector2Int(-1, -1);
     private GameObject[,] gridCells;
 
     void Start()
@@ -80,7 +80,7 @@ public void SelectCell(GameObject cell)
     {
         Vector2Int cellPosition = clickableCell.cellPosition;
 
-        if (startCell == Vector2Int.zero)
+        if (startCell == new Vector2Int(-1, -1))
         {
             startCell = cellPosition;
         }
@@ -115,6 +115,7 @@ public void SelectCell(GameObject cell)
         Transform cellCore = cell.transform.Find("Cell Core");
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = originalMaterial;
+        startCell = new Vector2Int(-1, -1);
     }
 
     // Function to select a cell
