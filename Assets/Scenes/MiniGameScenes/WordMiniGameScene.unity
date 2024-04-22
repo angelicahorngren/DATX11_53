@@ -345,6 +345,8 @@ MonoBehaviour:
   columns: 10
   spacing: 1
   cell: {fileID: 2888952737079233090, guid: ba184061645ee60478b9b9b8c7cdfff0, type: 3}
+  originalMaterial: {fileID: 2100000, guid: 7f4a57c68be6302499972dc3f7dfc94d, type: 2}
+  clickedMaterial: {fileID: 2100000, guid: be5d2e62c7186384ea1d144a6450fa76, type: 2}
 --- !u!65 &973887241
 BoxCollider:
   m_ObjectHideFlags: 0
