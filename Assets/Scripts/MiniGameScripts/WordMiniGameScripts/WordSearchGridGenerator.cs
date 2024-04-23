@@ -18,6 +18,8 @@ public class WordSearchGridGenerator : MonoBehaviour
     private GameObject[,] gridCells;
     private string word;
     private List<string> wordList = new List<string>();
+    private List<Vector2Int> correctCells = new List<Vector2Int>();
+    
 
     void Start()
     {
@@ -98,7 +100,6 @@ public void SelectCell(GameObject cell)
             ValidateWord(startCell, endCell);
             startCell = new Vector2Int(-1, -1);
             endCell = new Vector2Int(-1, -1);
-            Debug.Log("Start cell: " + startCell);
         }
     }
 
@@ -152,15 +153,19 @@ public void SelectCell(GameObject cell)
         int stepY = deltaY != 0 ? (int)Mathf.Sign(deltaY) : 0;
         int x = startCell.x;
         int y = startCell.y;
-        while (x != endCell.x + stepX || y != endCell.y + stepY)
+        while (x != endCell.x || y != endCell.y)
         {
             word += letterGrid[x, y];
             x += stepX;
             y += stepY;
         }
+
+        word += letterGrid[endCell.x, endCell.y];
+
         Debug.Log("Selected word: " + word);
         return word;
     }
+
 
 
     void ValidateWord(Vector2Int startCell, Vector2Int endCell)
@@ -169,7 +174,6 @@ public void SelectCell(GameObject cell)
 
         if (wordList.Contains(word))
         {
-            Debug.Log("Word found: " + word);
 
             // Extract word direction
             int stepX = Mathf.Clamp(endCell.x - startCell.x, -1, 1);
@@ -184,10 +188,13 @@ public void SelectCell(GameObject cell)
                 GameObject currentCell = gridCells[x, y];
                 ChangeMaterial(currentCell);
 
+                correctCells.Add(new Vector2Int(x, y));
                 // Move to the next cell
                 x += stepX;
                 y += stepY;
+
             }
+            correctCells.Add(new Vector2Int(endCell.x, endCell.y));
         }
         else
         {
@@ -197,7 +204,11 @@ public void SelectCell(GameObject cell)
         // Restore material for all cells
         foreach (GameObject cell in gridCells)
         {
-            //RestoreMaterial(cell);
+            Vector2Int cellPosition = cell.GetComponent<ClickableCell>().cellPosition;
+            if(!correctCells.Contains(cellPosition)){
+                RestoreMaterial(cell);
+            }
+
         }
     }
 
