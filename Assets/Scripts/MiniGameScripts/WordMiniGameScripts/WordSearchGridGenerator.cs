@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class WordSearchGridGenerator : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     private Vector2Int endCell = new Vector2Int(-1, -1);
     private GameObject[,] gridCells;
     private string word;
+    private List<string> wordList = new List<string>();
 
     void Start()
     {
@@ -33,16 +35,20 @@ public class WordSearchGridGenerator : MonoBehaviour
             {'P', 'E', 'X', 'G', 'S', 'I', 'L', 'O', 'P', 'C'},
             {'A', 'L', 'Y', 'H', 'T', 'O', 'V', 'I', 'D', 'R'},
             {'Q', 'Z', 'B', 'X', 'G', 'W', 'S', 'N', 'L', 'C'},
-            {'M', 'I', 'B', 'I', 'L', 'A', 'V', 'U', 'K', 'R'},
-            {'O', 'T', 'V', 'C', 'D', 'B', 'I', 'W', 'X', 'G'},
-            {'T', 'X', 'I', 'S', 'R', 'L', 'T', 'Z', 'A', 'T'},
-            {'I', 'F', 'Y', 'K', 'M', 'U', 'T', 'F', 'X', 'P'},
-            {'V', 'O', 'B', 'C', 'Q', 'V', 'N', 'L', 'J', 'O'},
-            {'F', 'P', 'N', 'Y', 'Z', 'E', 'E', 'P', 'T', 'M'}
+            {'M', 'I', 'B', 'I', 'L', 'A', 'U', 'V','K', 'R'},
+            {'O', 'T', 'V', 'C', 'D', 'B', 'I', 'I', 'X', 'G'},
+            {'T', 'X', 'I', 'S', 'R', 'L', 'X', 'T', 'A', 'T'},
+            {'I', 'F', 'Y', 'K', 'M', 'U', 'R', 'T', 'X', 'P'},
+            {'V', 'O', 'B', 'C', 'Q', 'V', 'Q', 'N', 'J', 'O'},
+            {'F', 'P', 'N', 'Y', 'Z', 'E', 'E', 'E', 'T', 'M'}
         };
 
         gridCells = new GameObject[rows, columns];
 
+        wordList.Add("POLIS");
+        wordList.Add("MOTIV");
+        wordList.Add("ALIBI");
+        wordList.Add("VITTNE");
     }
 
 void InstantiateGrid()
@@ -90,8 +96,12 @@ public void SelectCell(GameObject cell)
             endCell = cellPosition;
 
             ValidateWord(startCell, endCell);
+            startCell = new Vector2Int(-1, -1);
+            endCell = new Vector2Int(-1, -1);
+            Debug.Log("Start cell: " + startCell);
         }
     }
+
 }
 
 
@@ -110,13 +120,12 @@ public void SelectCell(GameObject cell)
         renderer.material = clickedMaterial;
     }
 
-    // Function to restore original material
+
     public void RestoreMaterial(GameObject cell)
     {
         Transform cellCore = cell.transform.Find("Cell Core");
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = originalMaterial;
-        startCell = new Vector2Int(-1, -1);
     }
 
     // Function to select a cell
@@ -154,18 +163,44 @@ public void SelectCell(GameObject cell)
     }
 
 
-    // Function to validate the selected word
     void ValidateWord(Vector2Int startCell, Vector2Int endCell)
     {
         string word = ExtractWord();
 
-        foreach (GameObject cell in gridCells)
+        if (wordList.Contains(word))
         {
-            RestoreMaterial(cell);
+            Debug.Log("Word found: " + word);
+
+            // Extract word direction
+            int stepX = Mathf.Clamp(endCell.x - startCell.x, -1, 1);
+            int stepY = Mathf.Clamp(endCell.y - startCell.y, -1, 1);
+
+            // Iterate through cells between startCell and endCell
+            int x = startCell.x;
+            int y = startCell.y;
+            while (x != endCell.x || y != endCell.y)
+            {
+                // Change material of current cell
+                GameObject currentCell = gridCells[x, y];
+                ChangeMaterial(currentCell);
+
+                // Move to the next cell
+                x += stepX;
+                y += stepY;
+            }
+        }
+        else
+        {
+            Debug.Log("Word not found: " + word);
         }
 
-        // Your logic to validate the word here...
+        // Restore material for all cells
+        foreach (GameObject cell in gridCells)
+        {
+            //RestoreMaterial(cell);
+        }
     }
+
 
     // Inner class to handle click events
     void OnMouseDown()
