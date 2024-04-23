@@ -15,6 +15,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     private Vector2Int startCell = new Vector2Int(-1, -1);
     private Vector2Int endCell = new Vector2Int(-1, -1);
     private GameObject[,] gridCells;
+    private string word;
 
     void Start()
     {
@@ -87,7 +88,7 @@ public void SelectCell(GameObject cell)
         else
         {
             endCell = cellPosition;
-            //Debug.Log("End Cell: " + endCell);
+
             ValidateWord(startCell, endCell);
         }
     }
@@ -121,30 +122,45 @@ public void SelectCell(GameObject cell)
     // Function to select a cell
 
 
-    // Function to extract the selected word from the grid
+        // Function to extract the selected word from the grid
     string ExtractWord()
     {
+        // Calculate deltaX and deltaY
+        int deltaX = endCell.x - startCell.x;
+        int deltaY = endCell.y - startCell.y;
+
+        // Determine the direction of the word
+        if (deltaX != 0 && deltaY != 0)
+        {
+            // Selection is diagonal, which is not supported
+            Debug.LogWarning("Selection must be either horizontal or vertical.");
+            return "";
+        }
+
+        // Traverse the selected cells and concatenate the characters
         string word = "";
-        int startX = startCell.x;
-        int startY = startCell.y;
-        int endX = endCell.x;
-        int endY = endCell.y;
-
-        // Your logic to extract the word from the grid here...
-
+        int stepX = deltaX != 0 ? (int)Mathf.Sign(deltaX) : 0;
+        int stepY = deltaY != 0 ? (int)Mathf.Sign(deltaY) : 0;
+        int x = startCell.x;
+        int y = startCell.y;
+        while (x != endCell.x + stepX || y != endCell.y + stepY)
+        {
+            word += letterGrid[x, y];
+            x += stepX;
+            y += stepY;
+        }
+        Debug.Log("Selected word: " + word);
         return word;
     }
+
 
     // Function to validate the selected word
     void ValidateWord(Vector2Int startCell, Vector2Int endCell)
     {
         string word = ExtractWord();
-        Debug.Log("startCell: " + startCell);
-        Debug.Log("endCell: " + endCell);
 
         foreach (GameObject cell in gridCells)
         {
-            Debug.Log(cell.name);
             RestoreMaterial(cell);
         }
 
@@ -157,3 +173,4 @@ public void SelectCell(GameObject cell)
         OnCellClick(gameObject);
     }
 }
+
