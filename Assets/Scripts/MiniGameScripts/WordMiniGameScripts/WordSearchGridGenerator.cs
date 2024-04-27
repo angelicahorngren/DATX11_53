@@ -19,7 +19,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     private string word;
     private List<string> wordList = new List<string>();
     private List<Vector2Int> correctCells = new List<Vector2Int>();
-    
+    public WordListManager wordListManager;
 
     void Start()
     {
@@ -118,18 +118,28 @@ public void SelectCell(GameObject cell)
     // Change material of a cell to clickedMaterial
     public void ChangeMaterial(GameObject cell)
     {
+        Transform cellTransform = cell.transform;
         Transform cellCore = cell.transform.Find("Cell Core");
+
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = clickedMaterial;
+
+        // Changes the y position of a pressed cell to clearly indicate that it has been pressed, can be lifted up or pushed down depending on the desired effect
+        cellTransform.position = new Vector3(cell.transform.position.x, 0.25f, cell.transform.position.z);
     }
 
 
     // Restore material of a cell to originalMaterial
     public void RestoreMaterial(GameObject cell)
     {
+        Transform cellTransform = cell.transform;
         Transform cellCore = cell.transform.Find("Cell Core");
+
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = originalMaterial;
+
+        cellTransform.position = new Vector3(cell.transform.position.x, 0, cell.transform.position.z);
+
     }
 
 
@@ -163,8 +173,6 @@ public void SelectCell(GameObject cell)
         }
 
         word += letterGrid[endCell.x, endCell.y];
-
-        Debug.Log("Selected word: " + word);
         return word;
     }
 
@@ -199,11 +207,11 @@ public void SelectCell(GameObject cell)
             }
             // Adds the end cell to the correctCells list as it will otherwise be skipped
             correctCells.Add(new Vector2Int(endCell.x, endCell.y));
+
+            
+            wordListManager.MarkWordAsFound(word, Color.green);
         }
-        else
-        {
-            Debug.Log("Word not found: " + word);
-        }
+
 
         // Restore material for all cells
         foreach (GameObject cell in gridCells)
@@ -214,6 +222,11 @@ public void SelectCell(GameObject cell)
             }
 
         }
+    }
+
+    public List<string> GetWordList()
+    {
+        return wordList;
     }
 
 
