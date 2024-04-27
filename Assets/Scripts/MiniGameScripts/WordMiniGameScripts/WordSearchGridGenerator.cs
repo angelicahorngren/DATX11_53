@@ -19,7 +19,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     private string word;
     private List<string> wordList = new List<string>();
     private List<Vector2Int> correctCells = new List<Vector2Int>();
-    
+    public WordListManager wordListManager;
 
     void Start()
     {
@@ -31,6 +31,8 @@ public class WordSearchGridGenerator : MonoBehaviour
     {
 
         grid = new char[rows, columns];
+
+        // Change the grid letters and wordList to whatever is desired, remember the grid is "flipped" -90 degrees in the game
         letterGrid = new char[,]
         {
             {'K', 'M', 'R', 'V', 'S', 'D', 'B', 'N', 'I', 'W'},
@@ -81,7 +83,7 @@ void InstantiateGrid()
     }
 }
 
-// Function to select a cell
+// Handles what the start and end cell is when clicking on cells
 public void SelectCell(GameObject cell)
 {
     ClickableCell clickableCell = cell.GetComponent<ClickableCell>();
@@ -106,36 +108,46 @@ public void SelectCell(GameObject cell)
 }
 
 
-    // Function to handle cell click
+    // Handles what happens when a cell is clicked
     public void OnCellClick(GameObject clickedCell)
     {
         ChangeMaterial(clickedCell);
         SelectCell(clickedCell);
     }
 
-    // Function to change material when cell is clicked
+    // Change material of a cell to clickedMaterial
     public void ChangeMaterial(GameObject cell)
     {
+        Transform cellTransform = cell.transform;
         Transform cellCore = cell.transform.Find("Cell Core");
+
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = clickedMaterial;
+
+        // Changes the y position of a pressed cell to clearly indicate that it has been pressed, can be lifted up or pushed down depending on the desired effect
+        cellTransform.position = new Vector3(cell.transform.position.x, 0.25f, cell.transform.position.z);
     }
 
 
+    // Restore material of a cell to originalMaterial
     public void RestoreMaterial(GameObject cell)
     {
+        Transform cellTransform = cell.transform;
         Transform cellCore = cell.transform.Find("Cell Core");
+
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
         renderer.material = originalMaterial;
+
+        cellTransform.position = new Vector3(cell.transform.position.x, 0, cell.transform.position.z);
+
     }
 
-    // Function to select a cell
 
 
-        // Function to extract the selected word from the grid
+    // Looks at the start and end cell and extracts the word from the cells by finding the direction of the word and letters in between
     string ExtractWord()
     {
-        // Calculate deltaX and deltaY
+
         int deltaX = endCell.x - startCell.x;
         int deltaY = endCell.y - startCell.y;
 
@@ -161,13 +173,12 @@ public void SelectCell(GameObject cell)
         }
 
         word += letterGrid[endCell.x, endCell.y];
-
-        Debug.Log("Selected word: " + word);
         return word;
     }
 
 
 
+    // Checks if the word extracted from the cells is in the wordList and changes the material of the cells if it is
     void ValidateWord(Vector2Int startCell, Vector2Int endCell)
     {
         string word = ExtractWord();
@@ -194,12 +205,13 @@ public void SelectCell(GameObject cell)
                 y += stepY;
 
             }
+            // Adds the end cell to the correctCells list as it will otherwise be skipped
             correctCells.Add(new Vector2Int(endCell.x, endCell.y));
+
+            
+            wordListManager.MarkWordAsFound(word, Color.green);
         }
-        else
-        {
-            Debug.Log("Word not found: " + word);
-        }
+
 
         // Restore material for all cells
         foreach (GameObject cell in gridCells)
@@ -210,6 +222,11 @@ public void SelectCell(GameObject cell)
             }
 
         }
+    }
+
+    public List<string> GetWordList()
+    {
+        return wordList;
     }
 
 
