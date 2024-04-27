@@ -2,37 +2,39 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Glass
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
+  m_Shader: {fileID: 4800000, guid: 71a4e521d2e067e47b0887d29a219bec, type: 3}
+  m_Parent: {fileID: 2100000, guid: d1cab5f74df224d43bafdb4d0975a860, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MAT1_COLORTEXTURE_ON
+  - _MAT2_COLORTEXTURE_ON
+  m_InvalidKeywords:
+  - _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AO:
+        m_Texture: {fileID: 2800000, guid: 44b950def6060664cab938e7e3ca7961, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BakedNormal:
+        m_Texture: {fileID: 2800000, guid: 9d43bd232e090b64f8aec41af6a64ae1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -44,35 +46,34 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+    - _Mat1_BaseTexture:
+        m_Texture: {fileID: 2800000, guid: c92b9a382c23f1046add6d7b821e10bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
+    - _Mat1_Base_Normal:
+        m_Texture: {fileID: 2800000, guid: e12563ccf97f87a4683eed1673a7b8c7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
+    - _Mat2_BaseTexture:
+        m_Texture: {fileID: 2800000, guid: c92b9a382c23f1046add6d7b821e10bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Mat2_Base_Normal:
+        m_Texture: {fileID: 2800000, guid: e12563ccf97f87a4683eed1673a7b8c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
     - _DstBlend: 10
-    - _GlossMapScale: 1
     - _Glossiness: 1
-    - _GlossyReflections: 1
+    - _Mat2_BaseColor: 3.75
+    - _Mat2_UV: 2
     - _Metallic: 0.612
     - _Mode: 3
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
+    - _VColor_G_Scale: 1.37
     - _ZWrite: 0
+    - __dirty: 1
     m_Colors:
     - _Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.34901962}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

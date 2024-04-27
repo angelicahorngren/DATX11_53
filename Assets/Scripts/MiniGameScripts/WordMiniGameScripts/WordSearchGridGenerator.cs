@@ -58,7 +58,7 @@ public class WordSearchGridGenerator : MonoBehaviour
 void InstantiateGrid()
 {
     float cellSize = 1.0f;
-    float distanceBetweenCells = 0.1f;
+    float distanceBetweenCells = 0.08f;
     for (int row = 0; row < rows; row++)
     {
         for (int col = 0; col < columns; col++)
