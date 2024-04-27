@@ -13,12 +13,12 @@ public class InLevelSceneChange : NetworkBehaviour
 
     [SerializeField] public String WhatDo;
    
-    private enum EnumDirections {Center, X, NotX, Z, NotZ}
-    [SerializeField] private EnumDirections FrontDirection;
+    //private enum EnumDirections {Center, X, NotX, Z, NotZ}
+    //[SerializeField] private EnumDirections FrontDirection;
     [SerializeField] public String NextSceneName;
 
-    private float _xOffset = 0, _yOffset = 0, _zOffset = 0;
-    private KeyCode key = KeyCode.E;
+    //private float _xOffset = 0, _yOffset = 0, _zOffset = 0;
+    //private KeyCode key = KeyCode.E;
 
 
  /*   public void JoinScene(Component player){
@@ -79,6 +79,7 @@ public class InLevelSceneChange : NetworkBehaviour
 
     public void ExitScene(){ // exit scene
         NetworkManager.Singleton.SceneManager.LoadScene(NextSceneName, LoadSceneMode.Single); //make sure this doesn't do somehing weird
+        
     }
 
 
@@ -86,8 +87,8 @@ public class InLevelSceneChange : NetworkBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, GetComponent<BoxCollider>().bounds.size);
         //setOffsets();
-        Vector3 LineEnd = new Vector3(transform.position.x + _xOffset, transform.position.y, transform.position.z + _zOffset);
+       // Vector3 LineEnd = new Vector3(transform.position.x + _xOffset, transform.position.y, transform.position.z + _zOffset);
 
-        Debug.DrawLine(transform.position, LineEnd, Color.green);
+        //Debug.DrawLine(transform.position, LineEnd, Color.green);
     }
 }
