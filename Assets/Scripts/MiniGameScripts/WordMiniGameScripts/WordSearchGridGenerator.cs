@@ -114,10 +114,12 @@ public void SelectCell(GameObject cell)
     // Handles what happens when a cell is clicked
     public void OnCellClick(GameObject clickedCell)
     {
-        ChangeMaterial(clickedCell, clickedMaterial);
-        SelectCell(clickedCell);
+        if (!correctCells.Contains(clickedCell.GetComponent<ClickableCell>().cellPosition))
+        {
+            ChangeMaterial(clickedCell, clickedMaterial);
+            SelectCell(clickedCell);
+        }
     }
-
     // Change material of a cell to a given material
     public void ChangeMaterial(GameObject cell, Material material)
     {
@@ -201,12 +203,16 @@ public void SelectCell(GameObject cell)
             while (x != endCell.x || y != endCell.y)
             {
                 GameObject currentCell = gridCells[x, y];
-                ChangeMaterial(currentCell, clickedMaterial);
+                ChangeMaterial(currentCell, correctMaterial);
 
                 correctCells.Add(new Vector2Int(x, y));
                 x += stepX;
                 y += stepY;
+
             }
+
+            ChangeMaterial(gridCells[endCell.x, endCell.y], correctMaterial);
+            
             correctCells.Add(new Vector2Int(endCell.x, endCell.y));
 
             wordListManager.MarkWordAsFound(word, Color.green);
