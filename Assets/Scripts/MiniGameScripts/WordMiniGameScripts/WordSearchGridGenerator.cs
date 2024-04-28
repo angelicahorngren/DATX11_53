@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
 
 public class WordSearchGridGenerator : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     public GameObject cell;
     public Material originalMaterial;
     public Material clickedMaterial;
+    public Material incorrectMaterial;
 
     private char[,] grid;
     private char[,] letterGrid;
@@ -58,7 +60,7 @@ public class WordSearchGridGenerator : MonoBehaviour
 void InstantiateGrid()
 {
     float cellSize = 1.0f;
-    float distanceBetweenCells = 0.08f;
+    float distanceBetweenCells = 0.1f;
     for (int row = 0; row < rows; row++)
     {
         for (int col = 0; col < columns; col++)
@@ -111,18 +113,18 @@ public void SelectCell(GameObject cell)
     // Handles what happens when a cell is clicked
     public void OnCellClick(GameObject clickedCell)
     {
-        ChangeMaterial(clickedCell);
+        ChangeMaterial(clickedCell, clickedMaterial);
         SelectCell(clickedCell);
     }
 
     // Change material of a cell to clickedMaterial
-    public void ChangeMaterial(GameObject cell)
+    public void ChangeMaterial(GameObject cell, Material material)
     {
         Transform cellTransform = cell.transform;
         Transform cellCore = cell.transform.Find("Cell Core");
 
         MeshRenderer renderer = cellCore.GetComponent<MeshRenderer>();
-        renderer.material = clickedMaterial;
+        renderer.material = material;
 
         // Changes the y position of a pressed cell to clearly indicate that it has been pressed, can be lifted up or pushed down depending on the desired effect
         cellTransform.position = new Vector3(cell.transform.position.x, 0.25f, cell.transform.position.z);
@@ -173,19 +175,21 @@ public void SelectCell(GameObject cell)
         }
 
         word += letterGrid[endCell.x, endCell.y];
+
+
         return word;
     }
 
 
 
     // Checks if the word extracted from the cells is in the wordList and changes the material of the cells if it is
-    void ValidateWord(Vector2Int startCell, Vector2Int endCell)
-    {
-        string word = ExtractWord();
+ void ValidateWord(Vector2Int startCell, Vector2Int endCell)
+{
+    string word = ExtractWord();
+
 
         if (wordList.Contains(word))
         {
-
             // Extract word direction
             int stepX = Mathf.Clamp(endCell.x - startCell.x, -1, 1);
             int stepY = Mathf.Clamp(endCell.y - startCell.y, -1, 1);
@@ -195,34 +199,69 @@ public void SelectCell(GameObject cell)
             int y = startCell.y;
             while (x != endCell.x || y != endCell.y)
             {
-                // Change material of current cell
                 GameObject currentCell = gridCells[x, y];
-                ChangeMaterial(currentCell);
+                ChangeMaterial(currentCell, clickedMaterial);
 
                 correctCells.Add(new Vector2Int(x, y));
-                // Move to the next cell
                 x += stepX;
                 y += stepY;
-
             }
-            // Adds the end cell to the correctCells list as it will otherwise be skipped
             correctCells.Add(new Vector2Int(endCell.x, endCell.y));
 
-            
             wordListManager.MarkWordAsFound(word, Color.green);
         }
-
-
-        // Restore material for all cells
-        foreach (GameObject cell in gridCells)
+        else if (word == "")
         {
-            Vector2Int cellPosition = cell.GetComponent<ClickableCell>().cellPosition;
-            if(!correctCells.Contains(cellPosition)){
-                RestoreMaterial(cell);
-            }
+         foreach (GameObject cell in gridCells)
+            {
+                Vector2Int cellPosition = cell.GetComponent<ClickableCell>().cellPosition;
+                if(!correctCells.Contains(cellPosition)){
+                    RestoreMaterial(cell);
+                }
 
+            }
+        }
+
+        else{
+            List<Vector2Int> incorrectCells = new List<Vector2Int>();
+            int stepX = Mathf.Clamp(endCell.x - startCell.x, -1, 1);
+            int stepY = Mathf.Clamp(endCell.y - startCell.y, -1, 1);
+            int x = startCell.x;
+            int y = startCell.y;
+            while (x != endCell.x || y != endCell.y)
+            {
+                incorrectCells.Add(new Vector2Int(x, y));
+                x += stepX;
+                y += stepY;
+            }
+            incorrectCells.Add(endCell);
+
+            HighlightIncorrectCells(incorrectCells);
+            StartCoroutine(ResetIncorrectCells(incorrectCells));
+        }
+    
+
+}
+
+IEnumerator ResetIncorrectCells(List<Vector2Int> incorrectCells)
+{
+    yield return new WaitForSeconds(1f);
+
+    foreach (Vector2Int cellPosition in incorrectCells)
+    {
+        GameObject cell = gridCells[cellPosition.x, cellPosition.y];
+        RestoreMaterial(cell);
+    }
+}
+    void HighlightIncorrectCells(List<Vector2Int> incorrectCells)
+    {
+        foreach (Vector2Int cellPosition in incorrectCells)
+        {
+            GameObject cell = gridCells[cellPosition.x, cellPosition.y];
+            ChangeMaterial(cell, incorrectMaterial);
         }
     }
+
 
     public List<string> GetWordList()
     {

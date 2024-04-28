@@ -739,6 +739,7 @@ MonoBehaviour:
   originalMaterial: {fileID: 2100000, guid: 7f4a57c68be6302499972dc3f7dfc94d, type: 2}
   clickedMaterial: {fileID: 2100000, guid: be5d2e62c7186384ea1d144a6450fa76, type: 2}
   wordListManager: {fileID: 999608029}
+  incorrectMaterial: {fileID: 2100000, guid: 93b69aa3f58fb38449e1fb84d7bd861e, type: 2}
 --- !u!65 &973887241
 BoxCollider:
   m_ObjectHideFlags: 0
