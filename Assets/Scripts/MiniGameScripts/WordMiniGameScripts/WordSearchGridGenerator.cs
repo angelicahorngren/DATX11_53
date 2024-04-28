@@ -12,6 +12,7 @@ public class WordSearchGridGenerator : MonoBehaviour
     public Material originalMaterial;
     public Material clickedMaterial;
     public Material incorrectMaterial;
+    public Material correctMaterial;
 
     private char[,] grid;
     private char[,] letterGrid;
@@ -89,7 +90,7 @@ void InstantiateGrid()
 public void SelectCell(GameObject cell)
 {
     ClickableCell clickableCell = cell.GetComponent<ClickableCell>();
-    if (clickableCell != null)
+    if (clickableCell != null && !correctCells.Contains(clickableCell.cellPosition))
     {
         Vector2Int cellPosition = clickableCell.cellPosition;
 
@@ -117,7 +118,7 @@ public void SelectCell(GameObject cell)
         SelectCell(clickedCell);
     }
 
-    // Change material of a cell to clickedMaterial
+    // Change material of a cell to a given material
     public void ChangeMaterial(GameObject cell, Material material)
     {
         Transform cellTransform = cell.transform;
@@ -249,6 +250,10 @@ IEnumerator ResetIncorrectCells(List<Vector2Int> incorrectCells)
 
     foreach (Vector2Int cellPosition in incorrectCells)
     {
+        if (correctCells.Contains(cellPosition))
+        {
+            continue;
+        }
         GameObject cell = gridCells[cellPosition.x, cellPosition.y];
         RestoreMaterial(cell);
     }
@@ -257,6 +262,10 @@ IEnumerator ResetIncorrectCells(List<Vector2Int> incorrectCells)
     {
         foreach (Vector2Int cellPosition in incorrectCells)
         {
+            if (correctCells.Contains(cellPosition))
+            {
+                continue;
+            }
             GameObject cell = gridCells[cellPosition.x, cellPosition.y];
             ChangeMaterial(cell, incorrectMaterial);
         }
