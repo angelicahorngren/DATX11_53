@@ -78,7 +78,7 @@ public class PlayerSpawnScript : NetworkBehaviour
                 //setOffsets();
                 transform.position = new Vector3(
                     hit.point.x, 
-                    hit.point.y + area.GetComponent<BoxCollider>().bounds.size.y/2,
+                    hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
                     hit.point.z
                 );
             }
@@ -94,7 +94,9 @@ public class PlayerSpawnScript : NetworkBehaviour
 
     void OnTriggerStay(Collider collisionInfo) // leaving scene
     {
+        Debug.Log("triggerStay");
         if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
+        //if(Input.GetKeyDown(KeyCode.E)){
             GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
         }
     }
