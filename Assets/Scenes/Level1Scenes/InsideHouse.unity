@@ -1210,6 +1210,7 @@ GameObject:
   - component: {fileID: 1047279128}
   - component: {fileID: 1047279127}
   - component: {fileID: 1047279126}
+  - component: {fileID: 1047279131}
   - component: {fileID: 1047279130}
   m_Layer: 5
   m_Name: Canvas
@@ -1318,6 +1319,27 @@ MonoBehaviour:
   ResumeButton: {fileID: 580750293}
   MenuButton: {fileID: 414874110}
   pauseMenuUI: {fileID: 186023383}
+--- !u!114 &1047279131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047279125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2828388070
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1099007528
 GameObject:
   m_ObjectHideFlags: 0

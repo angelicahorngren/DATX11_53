@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : NetworkBehaviour
 {
 
 
@@ -50,7 +50,7 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         GameIsPaused = false;
         Debug.Log("game has resumed");
     }
@@ -58,12 +58,13 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         GameIsPaused = true;
     }
 
     public void LoadMenu()
     {
+        CheckIfHostServerRpc();
         NetworkManager.Singleton.Shutdown(); //temporary
         
         
@@ -73,6 +74,27 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        CheckIfHostServerRpc();
         Application.Quit();
+    }
+
+
+
+    [ServerRpc]
+    private void CheckIfHostServerRpc(){
+        if (IsHost){
+            HostLeaveClientRpc();
+        }
+        Debug.Log("test TestServerRpc; " + OwnerClientId);
+    }
+
+
+    // may be temporary (unfinished)
+    [ClientRpc]
+    private void HostLeaveClientRpc(){
+        Debug.Log("before");
+        NetworkManager.Singleton.Shutdown();
+        Debug.Log("after");
+        SceneManager.LoadScene("mainmenu");
     }
 }
