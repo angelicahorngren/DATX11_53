@@ -95,10 +95,36 @@ public class PlayerSpawnScript : NetworkBehaviour
     void OnTriggerStay(Collider collisionInfo) // leaving scene
     {
         Debug.Log("triggerStay");
-        if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
+        if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.E)){
         //if(Input.GetKeyDown(KeyCode.E)){
             GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
         }
+        //if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.T)){
+        if(Input.GetKeyDown(KeyCode.T)){ //teleporter
+            TP(collisionInfo.GetComponent<TeleporterScript>().Destination);
+        //if(Input.GetKeyDown(KeyCode.E)){
+            
+        }
+    }
+
+    private void TP(GameObject Destination){
+
+        if (Destination != null){
+            RaycastHit hit;
+            Vector3 position = new Vector3(Destination.transform.position.x, Destination.transform.position.y, Destination.transform.position.z);
+            if (Physics.Raycast(position, -Vector3.up, out hit)){
+                //setOffsets();
+                transform.position = new Vector3(
+                    hit.point.x, 
+                    hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
+                    hit.point.z
+                );
+            }
+        } else {
+            Debug.LogError("No destination given for teleport");
+        }
+
+
     }
 
 }
