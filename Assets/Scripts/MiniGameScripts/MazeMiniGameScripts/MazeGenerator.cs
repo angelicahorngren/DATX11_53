@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class MazeGenerator : MonoBehaviour
 {
     [SerializeField] MazeNode nodePrefab;
@@ -9,7 +8,6 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] float nodeSize;
     public float NodeSize => nodeSize;
     public Vector2Int MazeSize => mazeSize;
-
     private void Start()
     {
         GenerateMazeInstant(mazeSize);
@@ -21,50 +19,37 @@ public class MazeGenerator : MonoBehaviour
 
     void GenerateMazeInstant(Vector2Int size)
     {
+        
        List<MazeNode> nodes = new List<MazeNode>();
 
-    // Get canvas size
-    RectTransform canvasRect = GetComponent<RectTransform>();
-    float canvasWidth = canvasRect.rect.width;
-    float canvasHeight = canvasRect.rect.height;
-
-    // Calculate node size based on canvas size and maze size
-    float nodeWidth = canvasWidth / size.x;
-    float nodeHeight = canvasHeight / size.y;
-
-    // Create nodes
-    for (int x = 0; x < size.x; x++)
-    {
-        for (int y = 0; y < size.y; y++)
+        // Create nodes
+        for (int x = 0; x < size.x; x++)
+  
         {
-            // Calculate node position relative to canvas
-            float xPos = (x - (size.x / 2f)) * nodeWidth + nodeWidth / 2f;
-            float yPos = (y - (size.y / 2f)) * nodeHeight + nodeHeight / 2f;
-
-            // Create node at calculated position
-            Vector3 nodePos = new Vector3(xPos, yPos, 0f);
-            MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
-            newNode.transform.localScale = new Vector3(nodeWidth, nodeHeight, 1f); // Set node scale to fit cell
-            nodes.Add(newNode);
+            for (int y = 0; y < size.y; y++)
+            {
+                Vector3 nodePos = new Vector3(x - (size.x / 2f), 0, y - (size.y / 2f));
+                MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
+                nodes.Add(newNode);
+            }
+           
         }
-    }
+
+    
         List<MazeNode> currentPath = new List<MazeNode>();
         List<MazeNode> completedNodes = new List<MazeNode>();
 
         // Choose starting node
         currentPath.Add(nodes[Random.Range(0, nodes.Count)]);
         currentPath[0].SetState(NodeState.Current);
-
         while (completedNodes.Count < nodes.Count)
         {
             // Check nodes next to the current node
             List<int> possibleNextNodes = new List<int>();
             List<int> possibleDirections = new List<int>();
-
             int currentNodeIndex = nodes.IndexOf(currentPath[currentPath.Count - 1]);
             int currentNodeX = currentNodeIndex / size.y;
             int currentNodeY = currentNodeIndex % size.y;
-
             if (currentNodeX < size.x - 1)
             {
                 // Check node to the right of the current node
@@ -105,13 +90,11 @@ public class MazeGenerator : MonoBehaviour
                     possibleNextNodes.Add(currentNodeIndex - 1);
                 }
             }
-
             // Choose next node
             if (possibleDirections.Count > 0)
             {
                 int chosenDirection = Random.Range(0, possibleDirections.Count);
                 MazeNode chosenNode = nodes[possibleNextNodes[chosenDirection]];
-
                 switch (possibleDirections[chosenDirection])
                 {
                     case 1:
@@ -131,14 +114,12 @@ public class MazeGenerator : MonoBehaviour
                         currentPath[currentPath.Count - 1].RemoveWall(3);
                         break;
                 }
-
                 currentPath.Add(chosenNode);
                 chosenNode.SetState(NodeState.Current);
             }
             else
             {
                 completedNodes.Add(currentPath[currentPath.Count - 1]);
-
                 currentPath[currentPath.Count - 1].SetState(NodeState.Completed);
                 currentPath.RemoveAt(currentPath.Count - 1);
             }
@@ -146,10 +127,6 @@ public class MazeGenerator : MonoBehaviour
         
     
     }
-
-
     
-
     
-
 }
