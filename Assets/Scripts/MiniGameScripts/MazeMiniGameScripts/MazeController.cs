@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MazeController : MonoBehaviour
 {
+    public GameObject mazeCanvas;
     public GameObject mazeGameObject;
 
     // Start is called before the first frame update
@@ -20,8 +21,9 @@ public class MazeController : MonoBehaviour
             // Check if the collider belongs to an object with the "Player" tag
             if (other.CompareTag("Player"))
             {
-                // Enable the maze game object when the player collides with the maze activator
+                // Enable the maze game object and canvas when the player collides with the maze activator
                 mazeGameObject.SetActive(true);
+                mazeCanvas.SetActive(true);
 
                 // You may want to add additional logic here to initialize the maze
             }
@@ -31,7 +33,8 @@ public class MazeController : MonoBehaviour
     // Method to finish the maze minigame
     public void FinishMazeMinigame()
     {
-        // Disable the maze game object when the minigame is finished
+        // Disable the maze game object and canvas when the minigame is finished
         mazeGameObject.SetActive(false);
+        mazeCanvas.SetActive(false);
     }
 }
