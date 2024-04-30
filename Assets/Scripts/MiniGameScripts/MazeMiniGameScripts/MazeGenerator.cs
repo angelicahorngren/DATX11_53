@@ -21,19 +21,33 @@ public class MazeGenerator : MonoBehaviour
 
     void GenerateMazeInstant(Vector2Int size)
     {
-        List<MazeNode> nodes = new List<MazeNode>();
+       List<MazeNode> nodes = new List<MazeNode>();
 
-        // Create nodes
-        for (int x = 0; x < size.x; x++)
+    // Get canvas size
+    RectTransform canvasRect = GetComponent<RectTransform>();
+    float canvasWidth = canvasRect.rect.width;
+    float canvasHeight = canvasRect.rect.height;
+
+    // Calculate node size based on canvas size and maze size
+    float nodeWidth = canvasWidth / size.x;
+    float nodeHeight = canvasHeight / size.y;
+
+    // Create nodes
+    for (int x = 0; x < size.x; x++)
+    {
+        for (int y = 0; y < size.y; y++)
         {
-            for (int y = 0; y < size.y; y++)
-            {
-                Vector3 nodePos = new Vector3(x - (size.x / 2f), 0, y - (size.y / 2f));
-                MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
-                nodes.Add(newNode);
-            }
-        }
+            // Calculate node position relative to canvas
+            float xPos = (x - (size.x / 2f)) * nodeWidth + nodeWidth / 2f;
+            float yPos = (y - (size.y / 2f)) * nodeHeight + nodeHeight / 2f;
 
+            // Create node at calculated position
+            Vector3 nodePos = new Vector3(xPos, yPos, 0f);
+            MazeNode newNode = Instantiate(nodePrefab, nodePos, Quaternion.identity, transform);
+            newNode.transform.localScale = new Vector3(nodeWidth, nodeHeight, 1f); // Set node scale to fit cell
+            nodes.Add(newNode);
+        }
+    }
         List<MazeNode> currentPath = new List<MazeNode>();
         List<MazeNode> completedNodes = new List<MazeNode>();
 
