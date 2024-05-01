@@ -8,19 +8,20 @@ public class GridGenerator : MonoBehaviour
     public int gridCols;
     public GameObject image;  //Quad object
     public float cellSize = 4.0f;
+    public float distanceBetweenCells = 0.1f;
 
-    //private List<Transform> pieces;
+    private List<Transform> pieces;
+    private Transform emptySpace;
 
     // Start is called before the first frame update
     void Start()
     {
-        //pieces = new List<Transform>();
+        pieces = new List<Transform>();
         GenerateGrid();
+        Shuffle();
     }
 
     void GenerateGrid(){
-
-        float distanceBetweenCells = 0.1f;
 
         for (int row = 0; row < gridRows; row++){
 
@@ -36,6 +37,7 @@ public class GridGenerator : MonoBehaviour
                 Vector3 generatePosition = new Vector3(col * (cellSize + distanceBetweenCells), 0, row * (cellSize + distanceBetweenCells));
 
                 GameObject imageQuad = Instantiate(image, generatePosition, Quaternion.identity);
+                pieces.Add(imageQuad.transform);  // Add the quad to the pieces list
 
                 imageQuad.transform.localScale = new Vector3(cellSize, cellSize, cellSize);
 
@@ -46,10 +48,31 @@ public class GridGenerator : MonoBehaviour
                 imageQuad.transform.name = $"{(col * (gridRows * gridCols) + row)}";
 
                 if ((row == gridRows - 1) && (col == gridCols - 1)) {
+                    emptySpace = imageQuad.transform;
                     imageQuad.gameObject.SetActive(false);
                 }
             }
         }
+
+    }
+
+    void Shuffle()
+    {
+        // Shuffle the pieces list
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            int randomIndex = Random.Range(i, pieces.Count);
+            Transform temp = pieces[i];
+            pieces[i] = pieces[randomIndex];
+            pieces[randomIndex] = temp;
+        }
+        
+        // Update the positions of the quads in the scene
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            pieces[i].position = new Vector3(i % gridCols * (cellSize + distanceBetweenCells), 0, i / gridCols * (cellSize + distanceBetweenCells));
+        }
+    
     }
 
     // Update is called once per frame
@@ -63,21 +86,49 @@ public class GridGenerator : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
 
-                MeshCollider meshCollider = hit.collider as MeshCollider;
-                if (meshCollider != null){
-
-                    HandleClickEvent(hit.transform);
+                Transform clickedQuad = hit.transform;
+                if (AdjacentToEmptySpace(clickedQuad))
+                {
+                    // Swap positions of the clicked quad and the empty space
+                    SwapQuads(clickedQuad, emptySpace);
                 }
-
-
             }
-
         }
-    }
-    
-    void HandleClickEvent (Transform clickedTransform){
-        Debug.Log("Quad clicked: " + clickedTransform.name);
+        
     }
 
+    bool AdjacentToEmptySpace(Transform quad)
+    {
+        // Get the parent GameObject of the clicked quad
+        GameObject parentObject = quad.parent.gameObject;
+        // Get the transform of the parent GameObject (imageQuad)
+        Transform quadTransform = parentObject.transform;
+
+        int clickedIndex = pieces.IndexOf(quadTransform);
+        int emptyIndex = pieces.IndexOf(emptySpace);
+
+        int rowDifference = Mathf.Abs(clickedIndex / gridCols - emptyIndex / gridCols);
+        int colDifference = Mathf.Abs(clickedIndex % gridCols - emptyIndex % gridCols);
+
+        return (rowDifference == 1 && colDifference == 0) || (rowDifference == 0 && colDifference == 1);
+    }
+
+    void SwapQuads(Transform quad1, Transform quad2)
+    {
+        // Get the parent GameObject of the clicked quad
+        GameObject parentObject = quad1.parent.gameObject;
+        // Get the transform of the parent GameObject (imageQuad)
+        Transform quad1Parent = parentObject.transform;
+
+        Vector3 tempPosition = quad1Parent.position;
+        quad1Parent.position = quad2.position;
+        quad2.position = tempPosition;
+
+        // Swap elements in the pieces list
+        int index1 = pieces.IndexOf(quad1Parent);
+        int index2 = pieces.IndexOf(quad2);
+        pieces[index1] = quad2;
+        pieces[index2] = quad1Parent;
+    }
 
 }
