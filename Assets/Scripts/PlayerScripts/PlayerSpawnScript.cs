@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,67 +6,120 @@ using Unity.Netcode;
 
 public class PlayerSpawnScript : NetworkBehaviour
 {
-    [SerializeField] public InforamtionKeeper inforamtionKeeper; // Assuming this is intentional
-    private Scene OriginalScene;
+    [SerializeField] public InforamtionKeeper inforamtionKeeper;
+    private Scene originalScene;
+    private bool firstSpawn;
+    private Invisibility filter;
 
-    
+    private Scene nonActiveScene;
+
     void Start()
     {
-        if(!IsOwner) return;
-        OriginalScene = SceneManager.GetActiveScene();
-        Spawn();
+        if (!IsOwner) return;
+        originalScene = SceneManager.GetActiveScene();
+        firstSpawn = true;
+
     }
 
-    // Update is called once per frame
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2);
+
+    }
     void Update()
     {
-        if(!IsOwner) return;
+        if (!IsOwner) return;
 
-        UnityEngine.SceneManagement.Scene newScene = SceneManager.GetActiveScene();
-        if(OriginalScene.buildIndex != newScene.buildIndex){
-            OriginalScene = newScene;
-            Spawn();
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            var loadedScene = SceneManager.GetSceneAt(i);
+            GameObject sceneP = GameObject.Find(loadedScene.name);
+
+            if (IsPlayerInSceneBounds(loadedScene) && firstSpawn)
+            {
+                if (originalScene.name != loadedScene.name)
+                {
+                    originalScene = loadedScene;
+                    firstSpawn = false;
+                    Spawn(sceneP);
+                    Wait();
+                }
+            }
         }
     }
 
-        private void Spawn(){
-            if(!IsOwner) return;
-
-            if(inforamtionKeeper.StartLevel){
-                StartLevelSpawn();
-                inforamtionKeeper.StartLevel = false;
-            } else {
-                ChangeSceneSpawn();
+    bool IsPlayerInSceneBounds(Scene scene)
+    {
+        GameObject sceneParent = GameObject.Find(scene.name);
+        if (sceneParent != null)
+        {
+            Bounds bounds = GetBoundsOfGameObject(sceneParent);
+            if (bounds.Contains(transform.position))
+            {
+                return true;
             }
         }
+        return false;
+    }
 
-        private void StartLevelSpawn(){
-        // try {
-            GameObject SpawnPoint = GameObject.Find("SpawnPoint");
-            //if (SpawnPoint != null){
+    Bounds GetBoundsOfGameObject(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+
+        if (renderers.Length > 0)
+        {
+            Bounds combinedBounds = renderers[0].bounds;
+
+            for (int i = 1; i < renderers.Length; i++)
+            {
+                combinedBounds.Encapsulate(renderers[i].bounds);
+            }
+
+            return combinedBounds;
+        }
+
+        return new Bounds();
+    }
+
+        private void Spawn(GameObject sceneP){
+            if(!IsOwner) return;
+            StartLevelSpawn(sceneP);
+        }
+
+       private void StartLevelSpawn(GameObject sceneP)
+        {
+            Transform spawnPointTransform = sceneP.transform.Find("SpawnPoint");
+
+            if (spawnPointTransform != null)
+            {
+                GameObject spawnPoint = spawnPointTransform.gameObject;
+                Debug.Log("spawn point found");
+
                 RaycastHit hit;
-                if (Physics.Raycast(SpawnPoint.transform.position, -Vector3.up, out hit)){
-                    float range = SpawnPoint.GetComponent<SpawnParameters>().range; // taken from the skript in the prefab SpawnPoint
-                    
+                if (Physics.Raycast(spawnPoint.transform.position, -Vector3.up, out hit))
+                {
+                    float range = spawnPoint.GetComponent
+                                <SpawnParameters>().range;
+
                     transform.position = new Vector3(
                         hit.point.x + UnityEngine.Random.Range(-range, range), 
-                        hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
+                        hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y / 2,
                         hit.point.z + UnityEngine.Random.Range(-range, range) 
                     );
                 }
-
-            //} else {
-             //   ChangeSceneSpawn();
-             //   Debug.LogError("SpawnPoint not found.");
-            //}
-       // } //catch (NullReferenceException e){
-       //     Debug.LogException(e);
-       //     Debug.LogWarning(e);
-       //     Debug.Log("Null point exception for no spawn point object for player in scene, buildindex: " + SceneManager.GetActiveScene().buildIndex);
-       // }
-            
+            }
+            else
+            {
+                Debug.LogError("spawn point not found");
+            }
         }
 
+ 
+
+
+    
     private void ChangeSceneSpawn(){ // joining scene
 
         GameObject area = GameObject.Find("SceneChangeArea");
@@ -75,37 +127,77 @@ public class PlayerSpawnScript : NetworkBehaviour
             RaycastHit hit;
             Vector3 position = new Vector3(area.transform.position.x, area.transform.position.y, area.transform.position.z);
             if (Physics.Raycast(position, -Vector3.up, out hit)){
-                //setOffsets();
+                Debug.LogError("scenechangearea found, if statement run");
                 transform.position = new Vector3(
                     hit.point.x, 
-                    hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
+                    hit.point.y + area.GetComponent<BoxCollider>().bounds.size.y/2,
                     hit.point.z
                 );
             }
         }
-    }
-
-    /*void OnCollisionStay(Collision collisionInfo) // leaving scene
-    {
-        if(collisionInfo.gameObject.tag.Equals("Door Zone") && Input.GetKeyDown(KeyCode.E)){
-            GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
+        else
+        {
+            Debug.Log("scenechangearea not found");
         }
-    }*/
+    }
 
     void OnTriggerStay(Collider collisionInfo) // leaving scene
     {
-        Debug.Log("triggerStay");
         if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.E)){
-        //if(Input.GetKeyDown(KeyCode.E)){
-            GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
+        {
+            //GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
+
+            StartCoroutine(PerformDelayedSpawn());
         }
-        //if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.T)){
+
         if(Input.GetKeyDown(KeyCode.T)){ //teleporter
             TP(collisionInfo.GetComponent<TeleporterScript>().Destination);
         //if(Input.GetKeyDown(KeyCode.E)){
             
         }
-    }
+    }}
+
+    IEnumerator PerformDelayedSpawn()
+    {
+        //yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            var loadedScene = SceneManager.GetSceneAt(i);
+
+            if (!IsPlayerInSceneBounds(loadedScene) && (loadedScene.name == "InsideHouse"))
+            {
+                GameObject sceneP = GameObject.Find(loadedScene.name);
+                if (originalScene.name != loadedScene.name)
+                {
+                    originalScene = loadedScene;
+                    Debug.Log(sceneP);
+                    Spawn(sceneP);
+                    SceneManager.SetActiveScene(loadedScene);
+                    yield return new WaitForSeconds(0.5f);
+
+                }
+
+                break;
+            }
+
+            if (!IsPlayerInSceneBounds(loadedScene) && (loadedScene.name == "OutsideHouse"))
+            {
+                GameObject sceneP = GameObject.Find(loadedScene.name);
+                if (originalScene.name != loadedScene.name)
+                {
+                    originalScene = loadedScene;
+                    Debug.Log(sceneP);
+                    Spawn(sceneP);
+                    SceneManager.SetActiveScene(loadedScene);
+                    yield return new WaitForSeconds(0.5f);
+
+                }
+
+                break;
+            }
+        }}
+    
 
     private void TP(GameObject Destination){
 
@@ -113,7 +205,6 @@ public class PlayerSpawnScript : NetworkBehaviour
             RaycastHit hit;
             Vector3 position = new Vector3(Destination.transform.position.x, Destination.transform.position.y, Destination.transform.position.z);
             if (Physics.Raycast(position, -Vector3.up, out hit)){
-                //setOffsets();
                 transform.position = new Vector3(
                     hit.point.x, 
                     hit.point.y + GetComponent<CapsuleCollider>().bounds.size.y/2,
@@ -128,3 +219,4 @@ public class PlayerSpawnScript : NetworkBehaviour
     }
 
 }
+

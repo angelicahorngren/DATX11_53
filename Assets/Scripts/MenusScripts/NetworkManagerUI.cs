@@ -7,9 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class NetworkManagerUI : MonoBehaviour
 {
-    //[SerializeField] private Button ServerButton;
-    //[SerializeField] private Button HostButton;
-    //[SerializeField] private Button ClientButton;
 
     [SerializeField] public InforamtionKeeper inforamtionKeeper;
 
@@ -22,7 +19,11 @@ public class NetworkManagerUI : MonoBehaviour
                 NetworkManager.Singleton.StartHost();
                 //NetworkManager.Singleton.StartServer();
                 //NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = false;
-                NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Single);
+                //NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Additive);
+                SceneManager.LoadSceneAsync("OutsideHouse", LoadSceneMode.Additive);
+                //LightProbes.Tetrahedralize();
+                SceneManager.LoadSceneAsync("InsideHouse", LoadSceneMode.Additive);
+                LightProbes.Tetrahedralize();
         } else {
                 Debug.Log("CLIENTCLIENTCLIENT");
                 NetworkManager.Singleton.StartClient();
@@ -30,16 +31,5 @@ public class NetworkManagerUI : MonoBehaviour
         }
     }
 
-    /*private void Awake() {
-        ServerButton.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartServer();
-        });
-        HostButton.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartHost();
-        });
-        ClientButton.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartClient();
-        });
-    }*/
 }
 
