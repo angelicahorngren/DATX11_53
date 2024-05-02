@@ -9,9 +9,6 @@ public class PlayerSpawnScript : NetworkBehaviour
     [SerializeField] public InforamtionKeeper inforamtionKeeper;
     private Scene originalScene;
     private bool firstSpawn;
-    private Invisibility filter;
-
-    private Scene nonActiveScene;
 
     void Start()
     {
