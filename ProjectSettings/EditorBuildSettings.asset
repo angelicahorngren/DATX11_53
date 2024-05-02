@@ -23,4 +23,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MenuScenes/PauseMenuScene.unity
     guid: e6251715ad542714dad3a809a4bcdbe4
+  - enabled: 1
+    path: Assets/Scenes/MiniGameScenes/MazeMiniGameScene.unity
+    guid: ebd40197101357d4c99d75660bfcb0d5
+  - enabled: 1
+    path: Assets/Scenes/MiniGameScenes/PuzzleMiniGameScene.unity
+    guid: 385ab745ce54f2a4ebdde4b180d8802c
+  - enabled: 1
+    path: Assets/Scenes/MiniGameScenes/WordMiniGameScene.unity
+    guid: b3028bfa0dcb7724a954851147e0cfbd
   m_configObjects: {}
