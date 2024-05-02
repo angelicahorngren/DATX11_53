@@ -140,7 +140,7 @@ public class PlayerSpawnScript : NetworkBehaviour
 
     void OnTriggerStay(Collider collisionInfo) // leaving scene
     {
-        if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.E)){
+        if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.E))
         {
             //GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
 
@@ -152,7 +152,7 @@ public class PlayerSpawnScript : NetworkBehaviour
         //if(Input.GetKeyDown(KeyCode.E)){
             
         }
-    }}
+    }
 
     IEnumerator PerformDelayedSpawn()
     {
