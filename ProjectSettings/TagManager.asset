@@ -7,6 +7,7 @@ TagManager:
   - Goal
   - Door Zone
   - mazeactivator
+  - Game Zone
   layers:
   - Default
   - TransparentFX

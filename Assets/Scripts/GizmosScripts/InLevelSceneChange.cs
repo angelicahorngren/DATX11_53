@@ -12,18 +12,34 @@ public class InLevelSceneChange : NetworkBehaviour
 {
 
     [SerializeField] public String WhatDo;
+    private Scene currentMiniGame;
    
     //private enum EnumDirections {Center, X, NotX, Z, NotZ}
     //[SerializeField] private EnumDirections FrontDirection;
     [SerializeField] public String MinigameSceneName;
+    public static FollowCam MainCamReference;
 
+    
 
+    public void ExitScene(string minigameSceneName, FollowCam mainCam)
+    {
+        MainCamReference = mainCam;
+        Debug.Log(minigameSceneName);
+        StartCoroutine(LoadAndSetActiveScene(minigameSceneName));
 
-    public void ExitScene(){ // exit scene
-        //NetworkManager.Singleton.SceneManager.LoadScene(NextSceneName, LoadSceneMode.Additive); //make sure this doesn't do somehing weird
-        SceneManager.LoadSceneAsync(MinigameSceneName, LoadSceneMode.Additive);
-        //LightProbes.Tetrahedralize();
-        
+    }
+
+    private IEnumerator LoadAndSetActiveScene(string minigameSceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(minigameSceneName, LoadSceneMode.Additive);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        Scene currentMiniGame = SceneManager.GetSceneByName(minigameSceneName);
+        SceneManager.SetActiveScene(currentMiniGame);
     }
 
 
