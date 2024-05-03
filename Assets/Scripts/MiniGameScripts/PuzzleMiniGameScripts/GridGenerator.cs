@@ -58,15 +58,36 @@ public class GridGenerator : MonoBehaviour
 
     void Shuffle()
     {
-        // Shuffle the pieces list
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            int randomIndex = Random.Range(i, pieces.Count);
-            Transform temp = pieces[i];
-            pieces[i] = pieces[randomIndex];
-            pieces[randomIndex] = temp;
-        }
-        
+        int newFourthIndex = 4;
+        Transform pieceZero = pieces[0];
+        pieces[0] = pieces[newFourthIndex];
+        pieces[newFourthIndex] = pieceZero;
+
+        int newSeventhIndex = 7;
+        Transform pieceFour = pieces[4];
+        pieces[4] = pieces[newSeventhIndex];
+        pieces[newSeventhIndex] = pieceFour;
+
+        int newFifthIndex = 5;
+        Transform pieceOne = pieces[1];
+        pieces[1] = pieces[newFifthIndex];
+        pieces[newFifthIndex] = pieceOne;
+
+        int newSixthIndex = 6;
+        Transform pieceFive = pieces[5];
+        pieces[5] = pieces[newSixthIndex];
+        pieces[newSixthIndex] = pieceFive;
+
+        int nextFourthIndex = 4;
+        Transform pieceTwo = pieces[2];
+        pieces[2] = pieces[nextFourthIndex];
+        pieces[nextFourthIndex] = pieceTwo;
+
+        int nextFifthIndex = 5;
+        Transform pieceT = pieces[2];
+        pieces[2] = pieces[nextFifthIndex];
+        pieces[nextFifthIndex] = pieceT;
+
         // Update the positions of the quads in the scene
         for (int i = 0; i < pieces.Count; i++)
         {
