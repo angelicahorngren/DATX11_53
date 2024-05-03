@@ -7,8 +7,13 @@ using Unity.Netcode;
 public class PlayerSpawnScript : NetworkBehaviour
 {
     [SerializeField] public InforamtionKeeper inforamtionKeeper;
+    [SerializeField] private FollowCam mainCam;
+    [SerializeField] private Camera miniGameCamera;
+
+    private string minigameSceneName;
     private Scene originalScene;
     private bool firstSpawn;
+    private bool hasPressedE = false;
 
     void Start()
     {
@@ -27,6 +32,11 @@ public class PlayerSpawnScript : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
+
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            hasPressedE = false;
+        }
 
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -124,7 +134,6 @@ public class PlayerSpawnScript : NetworkBehaviour
             RaycastHit hit;
             Vector3 position = new Vector3(area.transform.position.x, area.transform.position.y, area.transform.position.z);
             if (Physics.Raycast(position, -Vector3.up, out hit)){
-                Debug.LogError("scenechangearea found, if statement run");
                 transform.position = new Vector3(
                     hit.point.x, 
                     hit.point.y + area.GetComponent<BoxCollider>().bounds.size.y/2,
@@ -142,7 +151,6 @@ public class PlayerSpawnScript : NetworkBehaviour
     {
         if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.E))
         {
-            //GameObject.Find("SceneChangeArea").GetComponent<InLevelSceneChange>().ExitScene();
 
             StartCoroutine(PerformDelayedSpawn());
         }
@@ -152,11 +160,31 @@ public class PlayerSpawnScript : NetworkBehaviour
         //if(Input.GetKeyDown(KeyCode.E)){
             
         }
+
+        
+         if(collisionInfo.gameObject.CompareTag("Game Zone") && Input.GetKeyDown(KeyCode.E) && !hasPressedE)
+        {
+            hasPressedE = true;
+            string minigameSceneName = collisionInfo.gameObject.GetComponent<InLevelSceneChange>().MinigameSceneName;
+   
+            StartCoroutine(PerformDelayedExit(minigameSceneName));
+        }
     }
+
+    
+    IEnumerator PerformDelayedExit(string minigameName)
+    {
+        yield return new WaitForSeconds(0.8f);
+        mainCam = FindObjectOfType<FollowCam>();
+        mainCam.gameObject.SetActive(false);
+        hasPressedE = true;
+        GameObject.Find("MiniGameArea").GetComponent<InLevelSceneChange>().ExitScene(minigameName, mainCam);
+        
+    }
+
 
     IEnumerator PerformDelayedSpawn()
     {
-        //yield return new WaitForSeconds(0.1f);
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {

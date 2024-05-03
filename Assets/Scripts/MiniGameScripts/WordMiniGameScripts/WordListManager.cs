@@ -7,6 +7,8 @@ public class WordListManager : MonoBehaviour
 {
     private TextMeshProUGUI wordListText;
     public WordSearchGridGenerator wordSearchGridGenerator;
+    public GameObject winScreen;
+    private int coloredWordCount = 0;
 
     void Start()
     {
@@ -16,6 +18,7 @@ public class WordListManager : MonoBehaviour
         wordSearchGridGenerator = FindObjectOfType<WordSearchGridGenerator>();
 
         UpdateWordListText(wordSearchGridGenerator.GetWordList());
+        winScreen.SetActive(false);
 
     }
 
@@ -39,5 +42,11 @@ public class WordListManager : MonoBehaviour
             string currentText = wordListText.text;
             string coloredWord = $"<color=#{ColorUtility.ToHtmlStringRGB(color)}>{word}</color>";
             wordListText.text = currentText.Replace(word, coloredWord);
+            coloredWordCount++;
+            
+            if(coloredWordCount >= 4)
+            {
+                winScreen.SetActive(true);
+            }
     }
 }

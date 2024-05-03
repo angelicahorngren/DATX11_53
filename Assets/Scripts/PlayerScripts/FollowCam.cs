@@ -19,7 +19,7 @@ public class FollowCam : MonoBehaviour
         {
             secondCam = this;
         }
-        
+        DontDestroyOnLoad(gameObject);
         //destroy all but first.
         AudioListener[] aL = FindObjectsOfType<AudioListener>();
         for (int i = 1; i < aL.Length; i++)
