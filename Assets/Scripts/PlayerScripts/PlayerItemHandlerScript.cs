@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerItemHandlerScript : MonoBehaviour
 {
 
-    private enum EnumItems {Empty, MagnifyingGlass, NotePad}
+    private enum EnumItems {Empty, MagnifyingGlass, NotePad, Blacklight}
     [SerializeField] EnumItems ItemInHand;
     // Start is called before the first frame update
     void Start()
