@@ -535,7 +535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridRows: 3
   gridCols: 3
-  image: {fileID: 4085862169873562150, guid: 5440b484516c1c1499abeee66aaa60b9, type: 3}
+  image: {fileID: 3158425433209226401, guid: 9c683043ceec0964ea96c5b96e10cf1e, type: 3}
   cellSize: 4
   distanceBetweenCells: 0.1
 --- !u!1660057539 &9223372036854775807
