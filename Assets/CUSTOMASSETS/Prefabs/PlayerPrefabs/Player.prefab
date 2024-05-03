@@ -692,6 +692,7 @@ GameObject:
   - component: {fileID: -6520844831950153338}
   - component: {fileID: 1958892667039411208}
   - component: {fileID: 2387853424562142548}
+  - component: {fileID: 8570703998314017806}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -728,7 +729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1579278530
+  GlobalObjectIdHash: 4213381901
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -936,6 +937,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inforamtionKeeper: {fileID: 11400000, guid: 6c804be9d92e67e40b4937770608944a, type: 2}
+  mainCam: {fileID: 0}
+  miniGameCamera: {fileID: 0}
+--- !u!114 &8570703998314017806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3673943382405883388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878bdd0129d90c442ad08458086f0cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4074147722466123839
 GameObject:
   m_ObjectHideFlags: 0
