@@ -80,7 +80,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Skybox:
-        m_Texture: {fileID: 2800000, guid: 88c0f56a2089f264cac71bafc09f0eb5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a9e77eb3661b9545a02be488d5a0bd2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
