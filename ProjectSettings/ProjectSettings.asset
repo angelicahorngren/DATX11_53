@@ -766,11 +766,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: f435110f-a26f-44ef-bff9-5f24b3a770e7
+  cloudProjectId: 58f755ba-1a51-4644-91f1-8653b471db97
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: DetectiveGame
-  organizationId: angelhorngren
+  organizationId: marsaielda
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

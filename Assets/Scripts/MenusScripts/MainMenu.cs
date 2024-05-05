@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Unity.Netcode;
+using System;
+using TMPro;
 
 
 public class MainMenu : MonoBehaviour
@@ -11,6 +13,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button ExitButton;
     [SerializeField] private Button HostButton;
     [SerializeField] private Button JoinButton;
+    [SerializeField] private TMP_InputField JoinCodeArea;
+    [SerializeField] private GameObject transitionSceneBackground;
 
     
     [SerializeField] public InforamtionKeeper inforamtionKeeper;
@@ -26,12 +30,15 @@ public class MainMenu : MonoBehaviour
             Debug.Log("HOST"); 
             inforamtionKeeper.JoinCode= ""; //telling that you are hosting
             //SceneManager.LoadScene("OutsideHouse");
+            transitionSceneBackground.SetActive(true);
             SceneManager.LoadScene("NetworkActivationMiddleScene");
             //NetworkManager.Singleton.StartHost();
         });
         JoinButton.onClick.AddListener(() => {
             Debug.Log("CLIENT/JOIN"); 
-            inforamtionKeeper.JoinCode= "1"; // temp hardwired code telling that you are a client for a host with password "1"
+            String joinCode = JoinCodeArea.text;
+            inforamtionKeeper.JoinCode= joinCode; // temp hardwired code telling that you are a client for a host with password "1"
+            transitionSceneBackground.SetActive(true);
             //SceneManager.LoadScene("OutsideHouse");
             SceneManager.LoadScene("NetworkActivationMiddleScene");
         });
@@ -42,6 +49,7 @@ public class MainMenu : MonoBehaviour
         inforamtionKeeper.JoinCode= "";
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        transitionSceneBackground.SetActive(false);
         
 /*        
         ExitButton.onClick.AddListener(() => {

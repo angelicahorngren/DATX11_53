@@ -14,16 +14,17 @@ public class NetworkManagerUI : MonoBehaviour
     {
         inforamtionKeeper.StartLevel = true;
         if(inforamtionKeeper.JoinCode == ""){
-                
+              //  MultiplayerRelayScript.CreateRelay();
                 Debug.Log("HOSTHOSTHOST");
-                NetworkManager.Singleton.StartHost();
+           //     NetworkManager.Singleton.StartHost();
                 //NetworkManager.Singleton.StartServer();
                 //NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = false;
                 //NetworkManager.Singleton.SceneManager.LoadScene("OutsideHouse", LoadSceneMode.Additive);
-                SceneManager.LoadSceneAsync("OutsideHouse", LoadSceneMode.Additive);
+                
+       //         SceneManager.LoadSceneAsync("OutsideHouse", LoadSceneMode.Additive);
                 //LightProbes.Tetrahedralize();
-                SceneManager.LoadSceneAsync("InsideHouse", LoadSceneMode.Additive);
-                LightProbes.Tetrahedralize();
+       //         SceneManager.LoadSceneAsync("InsideHouse", LoadSceneMode.Additive);
+       //         LightProbes.Tetrahedralize();
         } else {
                 Debug.Log("CLIENTCLIENTCLIENT");
                 NetworkManager.Singleton.StartClient();
