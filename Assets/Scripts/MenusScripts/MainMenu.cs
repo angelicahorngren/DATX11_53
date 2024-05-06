@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Unity.Netcode;
 using System;
 using TMPro;
+using Unity.Tutorials.Core.Editor;
 
 
 public class MainMenu : MonoBehaviour
@@ -37,6 +38,9 @@ public class MainMenu : MonoBehaviour
         JoinButton.onClick.AddListener(() => {
             Debug.Log("CLIENT/JOIN"); 
             String joinCode = JoinCodeArea.text;
+            if (joinCode.IsNullOrEmpty()){
+                joinCode = "NonEmpty";
+            }
             inforamtionKeeper.JoinCode= joinCode; // temp hardwired code telling that you are a client for a host with password "1"
             transitionSceneBackground.SetActive(true);
             //SceneManager.LoadScene("OutsideHouse");
