@@ -1605,7 +1605,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   introText: {fileID: 1791865852}
   continuationText: {fileID: 1930123327}
-  panel: {fileID: 542464548}
+  nextDialoguePanel: {fileID: 542464548}
+  dialogueWindow: {fileID: 950637193}
   lines:
   - "V\xC4LKOMMEN ! \xC4NTLIGEN \xC4R DU H\xC4R, NU KAN VI L\xD6SA DETTA MYSTISKA
     FALL !"
@@ -1614,6 +1615,7 @@ MonoBehaviour:
   - "DITT UPPDRAG \xC4R ATT FINNA DEN F\xD6RSVUNNA VASEN OCH AVSL\xD6JA PERSONEN
     BAKOM DETTA ILLD\xC5D."
   - "MEN H\xC5LL UTKIK, DET \xC4R N\xC5GOTING SOM INTE ST\xC5R R\xC4TT TILL."
+  - 
   textSpeed: 0.1
 --- !u!1 &1640388969
 GameObject:

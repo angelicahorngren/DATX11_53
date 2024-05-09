@@ -10,7 +10,9 @@ public class DialogueLogic : MonoBehaviour
     public TextMeshProUGUI introText;
     public TextMeshProUGUI continuationText;
 
-    public GameObject panel;
+    public GameObject nextDialoguePanel;
+
+    public GameObject dialogueWindow;
   
     public string[] lines;
     public float textSpeed;
@@ -34,7 +36,7 @@ public class DialogueLogic : MonoBehaviour
     public void ClickContinue(){
 
         if (introText.text == lines[index]){
-                panel.SetActive(true);
+                nextDialoguePanel.SetActive(true);
                 NextLine();
             }
             else {
@@ -49,7 +51,11 @@ public class DialogueLogic : MonoBehaviour
         else {
             StopTypingAndPrintLine();
         }
+        if (index == lines.Length - 1){
+            dialogueWindow.SetActive(false);
+        }
     }
+
 
     public void ClickBack(){
         if (continuationText.text == lines[index] && index <= lines.Length - 1){
