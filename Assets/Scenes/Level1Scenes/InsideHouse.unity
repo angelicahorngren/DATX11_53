@@ -13645,68 +13645,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.46117908, y: 1.1731901, z: 1.4371698}
   m_Center: {x: 0.00000046938658, y: 0.5693767, z: 0.00000020861626}
---- !u!1001 &1525408134
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1617138519}
-    m_Modifications:
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.54000854
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.168
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.441
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3742374890586816182, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-      propertyPath: m_Name
-      value: questionmarksparkle
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
---- !u!4 &1525408135 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1375064903338401444, guid: b7bf0e81d7e67774d990de127bcc91fd, type: 3}
-  m_PrefabInstance: {fileID: 1525408134}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1534662173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14774,7 +14712,6 @@ Transform:
   m_Children:
   - {fileID: 742058743}
   - {fileID: 627529905}
-  - {fileID: 1525408135}
   - {fileID: 2033175451190952026}
   m_Father: {fileID: 8122106}
   m_LocalEulerAnglesHint: {x: 0, y: 135, z: 0}
