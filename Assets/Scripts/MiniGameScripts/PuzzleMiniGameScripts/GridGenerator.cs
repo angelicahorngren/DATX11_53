@@ -9,20 +9,25 @@ public class GridGenerator : MonoBehaviour
     public GameObject image;  //Quad object
     public float cellSize = 4.0f;
     public float distanceBetweenCells = 0.1f;
-
+    public GameObject winScreen;
     private List<Transform> pieces;
+    private List<Transform> puzzle;
+    private List<Transform> puzzle_copy; 
+    private List<Transform> shuffled;
     private Transform emptySpace;
 
     // Start is called before the first frame update
     void Start()
     {
+        winScreen.SetActive(false);
         pieces = new List<Transform>();
-        GenerateGrid();
-        Shuffle();
+        puzzle = GenerateGrid(pieces);
+        puzzle_copy = new List<Transform>(puzzle);
+        shuffled = Shuffle(puzzle);
     }
 
-    void GenerateGrid(){
-
+    List<Transform> GenerateGrid(List<Transform> pieces2){
+        pieces = pieces2;
         for (int row = 0; row < gridRows; row++){
 
             for (int col = 0; col < gridCols; col++){
@@ -53,11 +58,13 @@ public class GridGenerator : MonoBehaviour
                 }
             }
         }
+        return pieces;
 
     }
 
-    void Shuffle()
+    List<Transform> Shuffle(List<Transform> puzzle2)
     {
+        pieces = puzzle2;
         int newFourthIndex = 4;
         Transform pieceZero = pieces[0];
         pieces[0] = pieces[newFourthIndex];
@@ -93,12 +100,21 @@ public class GridGenerator : MonoBehaviour
         {
             pieces[i].position = new Vector3(i % gridCols * (cellSize + distanceBetweenCells), 0, i / gridCols * (cellSize + distanceBetweenCells));
         }
-    
+
+        return pieces;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if (shuffled == puzzle){
+        //    winScreen.SetActive(true);
+       // }
+        if (AreListsEqual(shuffled, puzzle_copy))
+        {
+            winScreen.SetActive(true);
+        }
+
         if (Input.GetMouseButtonDown(0)){
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -116,6 +132,24 @@ public class GridGenerator : MonoBehaviour
             }
         }
         
+    }
+
+    bool AreListsEqual(List<Transform> list1, List<Transform> list2)
+    {
+        if (list1.Count != list2.Count)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < list1.Count; i++)
+        {
+            if (list1[i] != list2[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     bool AdjacentToEmptySpace(Transform quad)
