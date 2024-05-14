@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 2370147741204519318}
   - component: {fileID: 4751143580659268379}
   m_Layer: 5
-  m_Name: Winscreen
+  m_Name: Winscreen - Copy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
