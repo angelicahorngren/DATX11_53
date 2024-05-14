@@ -7,7 +7,7 @@ public class FollowCam : MonoBehaviour
     public Transform? target;
     public static FollowCam mainCam;
     public static FollowCam secondCam;
-    private float camXpos = 0, camYpos = 3, camZpos = 0, fov = 80.5f;
+    private float camXpos = 0, camYpos = 3.0f, camZpos = 0, fov = 80.5f;
 
     void Awake()
     {
