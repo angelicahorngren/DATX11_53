@@ -8,6 +8,8 @@ TagManager:
   - Door Zone
   - mazeactivator
   - Game Zone
+  - Interactable
+  - DropArea
   layers:
   - Default
   - TransparentFX
