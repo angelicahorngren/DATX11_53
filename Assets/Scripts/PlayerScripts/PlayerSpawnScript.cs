@@ -33,7 +33,7 @@ public class PlayerSpawnScript : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.Return))
         {
             hasPressedE = false;
         }
@@ -149,7 +149,7 @@ public class PlayerSpawnScript : NetworkBehaviour
 
     void OnTriggerStay(Collider collisionInfo) // leaving scene
     {
-        if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.E))
+        if(collisionInfo.gameObject.CompareTag("Door Zone") && Input.GetKeyDown(KeyCode.Return))
         {
 
             StartCoroutine(PerformDelayedSpawn());
@@ -162,7 +162,7 @@ public class PlayerSpawnScript : NetworkBehaviour
         }
 
         
-         if(collisionInfo.gameObject.CompareTag("Game Zone") && Input.GetKeyDown(KeyCode.E) && !hasPressedE)
+         if(collisionInfo.gameObject.CompareTag("Game Zone") && Input.GetKeyDown(KeyCode.Return) && !hasPressedE)
         {
             hasPressedE = true;
             string minigameSceneName = collisionInfo.gameObject.GetComponent<InLevelSceneChange>().MinigameSceneName;
