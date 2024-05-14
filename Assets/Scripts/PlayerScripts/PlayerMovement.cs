@@ -9,9 +9,11 @@ public class Player_Movement : NetworkBehaviour
     public Transform playerTransform;
     public bool walking, idle;
 
+    private bool isActive = true;
+
     void FixedUpdate()
     {
-        if(!IsOwner) return;
+        if (!isActive || !IsOwner) return;
         //movement
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -25,12 +27,12 @@ public class Player_Movement : NetworkBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
             playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, rotation_speed * Time.deltaTime);
         }
-        
+
     }
 
     void Update()
     {
-        if(!IsOwner) return;
+        if (!isActive || !IsOwner) return;
         //animation 
         bool anyKeyPressed = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow);
 
@@ -40,15 +42,14 @@ public class Player_Movement : NetworkBehaviour
         playerAnimation.SetBool("Walking", walking);
         playerAnimation.SetBool("Idle", idle);
 
-        if(!anyKeyPressed)
+        if (!anyKeyPressed)
         {
             playerRigid.velocity = Vector3.zero;
         }
     }
 
-
-
-
-
-    
+    public void SetActive(bool active)
+    {
+        isActive = active;
+    }
 }

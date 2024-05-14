@@ -52,10 +52,35 @@ public class PlayerSpawnScript : NetworkBehaviour
                     firstSpawn = false;
                     Spawn(sceneP);
                     Wait();
+                    SceneManager.SetActiveScene(originalScene);
                 }
             }
         }
+
+        if (SceneManager.sceneCount >= 3 || IsDialogueBoxActive() == true){
+            Player_Movement playerMovement = GetComponent<Player_Movement>();
+            playerMovement.SetActive(false);
+            CharacterControllerScript charControl = GetComponent<CharacterControllerScript>();
+            charControl.SetActive(false);
+        }
+        if (SceneManager.sceneCount <= 3 && IsDialogueBoxActive() == false){
+            Player_Movement playerMovement = GetComponent<Player_Movement>();
+            playerMovement.SetActive(true);
+            CharacterControllerScript charControl = GetComponent<CharacterControllerScript>();
+            charControl.SetActive(true);
+        }
+
     }
+
+    bool IsDialogueBoxActive()
+{
+    GameObject canvasTransform = GameObject.Find("DialogueCanvas");
+    if (canvasTransform == null){
+        return false;
+    }
+    return canvasTransform != null && canvasTransform.gameObject.activeSelf;
+
+}
 
     bool IsPlayerInSceneBounds(Scene scene)
     {

@@ -7,26 +7,18 @@ using UnityEngine.SceneManagement;
 
 public class CharacterControllerScript : NetworkBehaviour
 {
-    //private CharacterController characterController;
     private Rigidbody rb;
     public float speed = 5f;
-    
+    private UnityEngine.SceneManagement.Scene originalScene;
 
-    private UnityEngine.SceneManagement.Scene OriginalScene;
-
-    /*public struct Test : INetworkSerializable {
-        public FixedString128Bytes x;
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref x);
-        }
-    }*/
+    private bool isActive = true;
 
     void Start()
     {
-        if(!IsOwner) return;
+        if (!IsOwner) return;
         rb = GetComponent<Rigidbody>();
+        
+        //DontDestroyOnLoad(gameObject);
 
         if (IsLocalPlayer && FollowCam.mainCam != null && FollowCam.secondCam == null)
         {
@@ -47,41 +39,27 @@ public class CharacterControllerScript : NetworkBehaviour
             FollowCam.mainCam.target = rb.transform;
         }
 
-
-        OriginalScene = SceneManager.GetActiveScene();
-        
+        originalScene = SceneManager.GetActiveScene();
     }
-
-
-
-    /*public override void OnNetworkSpawn()
-    {
-        //if(!IsOwner) Destroy(this);
-    }*/
 
     // Update is called once per frame
     void Update()
     {
-        if(!IsOwner) return;
+        if (!isActive || !IsOwner) return;
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         move *= speed * Time.deltaTime;
         rb.MovePosition(transform.position + move);
 
-
-
         UnityEngine.SceneManagement.Scene newScene = SceneManager.GetActiveScene();
-        if(OriginalScene.buildIndex != newScene.buildIndex){
-            OriginalScene = newScene;
+        if (originalScene.buildIndex != newScene.buildIndex)
+        {
+            originalScene = newScene;
             Start();
         }
     }
 
-
-
-    /*[ServerRpc]
-    private void TestServerRpc(){
-
-    }*/
-
-
+    public void SetActive(bool active)
+    {
+        isActive = active;
+    }
 }
