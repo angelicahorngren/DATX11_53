@@ -52,7 +52,7 @@ public class PlayerSpawnScript : NetworkBehaviour
                     firstSpawn = false;
                     Spawn(sceneP);
                     Wait();
-                    SceneManager.SetActiveScene(originalScene);
+                    //SceneManager.SetActiveScene(originalScene);
                 }
             }
         }
